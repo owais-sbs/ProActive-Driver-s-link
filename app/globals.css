@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 218 15% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 218 15% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 15% 8%;
+    --primary: 151 41% 18%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 218 15% 96%;
+    --secondary-foreground: 218 15% 8%;
+    --accent: 151 41% 18%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 218 15% 96%;
+    --muted-foreground: 218 10% 46%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 15% 91%;
+    --input: 218 15% 91%;
+    --ring: 151 41% 18%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-white text-ink antialiased;
+    font-feature-settings: "cv02","cv03","cv04","cv11";
+    overflow-x: hidden;
+  }
+  ::selection {
+    background-color: #C8E6C9;
+    color: #1B3A2A;
+  }
+}
+
+@layer utilities {
+  /* Brand palette */
+  .text-ink    { color: #111827; }
+  .bg-ink      { background-color: #111827; }
+  .text-forest { color: #1B3A2A; }
+  .bg-forest   { background-color: #1B3A2A; }
+  .text-moss   { color: #2D5C3E; }
+  .bg-moss     { background-color: #2D5C3E; }
+  .text-sage   { color: #4A8C63; }
+  .bg-sage     { background-color: #4A8C63; }
+  .text-mist   { color: #6B7280; }
+  .border-mist { border-color: #E5E7EB; }
+
+  /* Surfaces */
+  .bg-cream   { background-color: #F9F9F7; }
+  .bg-dark    { background-color: #0F1F14; }
+
+  /* Utility */
+  .nav-link {
+    @apply text-sm font-medium text-ink/70 hover:text-ink transition-colors;
+  }
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.15em] text-mist;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
