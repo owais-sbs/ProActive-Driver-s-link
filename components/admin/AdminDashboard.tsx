@@ -25,6 +25,7 @@ import Link from 'next/link';
 import { BookingsTable } from './BookingsTable';
 import { useBookings, usePricing } from '@/lib/queries/useBookings';
 import type { Booking, BookingStatus } from '@/types/booking';
+import type { PricingPackage } from '@/types/pricing';
 import { Button } from '@/components/ui/button';
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
@@ -37,8 +38,9 @@ const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 
 export function AdminDashboard() {
   const { data, isLoading } = useBookings();
-  const { data: packages = [] } = usePricing();
+  const { data: pricingData } = usePricing();
   const bookings: Booking[] = data ?? [];
+  const packages: PricingPackage[] = pricingData ?? [];
 
   const stats = useMemo(() => {
     const pending = bookings.filter((b) => b.status === 'Pending').length;
