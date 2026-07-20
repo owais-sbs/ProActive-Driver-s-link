@@ -30,11 +30,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-<<<<<<< HEAD
-    <section id="how" className="bg-cream py-16 sm:py-20 lg:py-28">
-=======
     <section id="how" className="bg-cream py-10 sm:py-12 lg:py-14">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <RevealText from="left">
@@ -52,11 +48,7 @@ export function HowItWorks() {
           </RevealText>
         </div>
 
-<<<<<<< HEAD
-        <div className="relative mt-12 sm:mt-16">
-=======
         <div className="relative mt-8 sm:mt-10">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
           {/* Desktop horizontal line */}
           <div className="absolute left-0 right-0 top-10 hidden h-px bg-mist lg:block">
             <motion.div

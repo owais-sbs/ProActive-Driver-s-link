@@ -44,11 +44,7 @@ export function BookingForm() {
   };
 
   return (
-<<<<<<< HEAD
-    <section id="book" className="bg-white py-20 lg:py-28">
-=======
     <section id="book" className="bg-white py-12 lg:py-14">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <RevealText from="left">

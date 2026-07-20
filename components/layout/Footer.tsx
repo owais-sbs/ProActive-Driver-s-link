@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Phone, Mail, MapPin, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { Logo } from './Logo';
 import { siteConfig, navLinks } from '@/lib/data/site';
+import { useSiteConfig } from '@/lib/queries/useSiteSettings';
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -29,6 +30,7 @@ function GoogleIcon({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  const site = useSiteConfig();
   return (
     <footer className="bg-dark text-white/80">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -39,12 +41,12 @@ export function Footer() {
               <Logo variant="light" size="sm" />
             </div>
             <p className="mx-auto mt-4 max-w-xs text-sm text-white/60 sm:mx-0">
-              {siteConfig.tagline} Private, MTO-approved driving lessons across the Greater Toronto
+              {site.tagline} Private, MTO-approved driving lessons across the Greater Toronto
               Area.
             </p>
             <div className="mt-5 flex items-center justify-center gap-3 sm:justify-start">
               <a
-                href={siteConfig.social.facebook}
+                href={site.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -53,7 +55,7 @@ export function Footer() {
                 <Facebook className="h-4 w-4" />
               </a>
               <a
-                href={siteConfig.social.instagram}
+                href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -62,7 +64,7 @@ export function Footer() {
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href={siteConfig.social.google}
+                href={site.social.google}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Google"
@@ -81,22 +83,22 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm">
               <li>
                 <a
-                  href={siteConfig.phoneHref}
+                  href={site.phoneHref}
                   className="inline-flex items-center gap-2 text-white/75 hover:text-white"
                 >
-                  <Phone className="h-4 w-4 text-sage" /> {siteConfig.phone}
+                  <Phone className="h-4 w-4 text-sage" /> {site.phone}
                 </a>
               </li>
               <li>
                 <a
-                  href={siteConfig.emailHref}
+                  href={site.emailHref}
                   className="inline-flex items-center gap-2 text-white/75 hover:text-white"
                 >
-                  <Mail className="h-4 w-4 text-sage" /> {siteConfig.email}
+                  <Mail className="h-4 w-4 text-sage" /> {site.email}
                 </a>
               </li>
               <li className="inline-flex items-center gap-2 text-white/75">
-                <MapPin className="h-4 w-4 shrink-0 text-sage" /> {siteConfig.area}
+                <MapPin className="h-4 w-4 shrink-0 text-sage" /> {site.area}
               </li>
             </ul>
           </div>
@@ -126,7 +128,7 @@ export function Footer() {
               Service Areas
             </h3>
             <ul className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
-              {siteConfig.serviceAreas.slice(0, 6).map((area) => (
+              {site.serviceAreas.slice(0, 6).map((area) => (
                 <li
                   key={area}
                   className="rounded-full bg-white/8 px-3 py-1 text-xs text-white/70 sm:inline"
@@ -139,19 +141,19 @@ export function Footer() {
               </li>
             </ul>
             <a
-              href={siteConfig.whatsapp}
+              href={site.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
             >
-              <MessageCircle className="h-4 w-4" /> {siteConfig.whatsappLabel}
+              <MessageCircle className="h-4 w-4" /> {site.whatsappLabel}
             </a>
           </div>
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-center text-xs text-white/50 sm:mt-12 sm:flex-row sm:text-left">
           <p>
-            © {new Date().getFullYear()} {siteConfig.name} Driving School. All rights reserved.
+            © {new Date().getFullYear()} {site.name} Driving School. All rights reserved.
           </p>
           <p className="flex flex-wrap items-center justify-center gap-2">
             <Link href="/admin" className="hover:text-white">

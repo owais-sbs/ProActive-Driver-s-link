@@ -15,14 +15,11 @@ export const metadata: Metadata = {
   description:
     'Private, MTO-approved driving lessons in Toronto and the GTA. Flexible scheduling, pick-up & drop-off, multilingual instructors, high pass rate.',
   keywords: ['driving school Toronto', 'G2 test', 'G test', 'driving lessons GTA', 'BDE course', 'Turbo Teach'],
-<<<<<<< HEAD
-=======
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',
     apple: '/icon.png',
   },
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
   openGraph: {
     title: 'Turbo Teach Driving School',
     description: 'Pass your G2 & G driving test with confidence.',

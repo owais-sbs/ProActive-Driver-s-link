@@ -3,15 +3,16 @@
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
+import { useSiteContent } from '@/lib/queries/useContent';
 
-const reviews = [
-  { name: 'Karen Smith', initials: 'KS', rating: 5, text: 'I was so nervous before my G2, but my instructor was incredibly patient. He explained everything clearly and I passed on my first try. Highly recommend Turbo Teach!' },
-  { name: 'Ali Khan', initials: 'AK', rating: 5, text: 'Flexible timing was a game-changer for me. I could book lessons after work and on weekends. The pick-up and drop-off made everything so convenient.' },
-  { name: 'Priya Sharma', initials: 'PS', rating: 5, text: 'Lessons in my own language made a huge difference. I finally understood the rules properly and felt confident going into my G test. Passed with flying colours!' },
-  { name: 'Marcus Lee', initials: 'ML', rating: 5, text: 'The BDE course was worth every penny. The classroom sessions were engaging and the in-car lessons were thorough. My insurance went down too!' },
-  { name: 'Sofia Rodriguez', initials: 'SR', rating: 5, text: 'Refresher lessons got me back behind the wheel after years of not driving. Friendly, professional, and never made me feel embarrassed. Thank you!' },
-  { name: 'Daniel Chen', initials: 'DC', rating: 5, text: 'Highway driving used to terrify me. After a few G prep lessons I felt totally in control. Smooth merges, confident lane changes — passed my G easily.' },
-];
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 function Stars({ count }: { count: number }) {
   return (
@@ -24,12 +25,14 @@ function Stars({ count }: { count: number }) {
 }
 
 export function Testimonials() {
+  const { data: content } = useSiteContent();
+  const reviews = content.testimonials.items.map((r) => ({
+    ...r,
+    initials: initials(r.name),
+  }));
+
   return (
-<<<<<<< HEAD
-    <section id="testimonials" className="overflow-x-hidden bg-white py-16 sm:py-20 lg:py-28">
-=======
     <section id="testimonials" className="overflow-x-hidden bg-white py-10 sm:py-12 lg:py-14">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
           <div>
@@ -83,10 +86,7 @@ export function Testimonials() {
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-forest font-display text-xs font-bold text-white sm:h-10 sm:w-10 sm:text-sm">
                   {r.initials}
                 </span>
-                <div>
-                  <p className="text-sm font-bold text-ink">{r.name}</p>
-                  <p className="text-[11px] text-mist sm:text-xs">Verified Google Review</p>
-                </div>
+                <span className="text-sm font-semibold text-ink">{r.name}</span>
               </figcaption>
             </motion.figure>
           ))}

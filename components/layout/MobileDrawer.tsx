@@ -6,8 +6,10 @@ import { Phone, MessageCircle, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from './Logo';
 import { siteConfig, navLinks } from '@/lib/data/site';
+import { useSiteConfig } from '@/lib/queries/useSiteSettings';
 
 export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const site = useSiteConfig();
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] lg:hidden">
       <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
@@ -39,15 +41,15 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
           <Button asChild className="bg-forest text-white hover:bg-forest-light" size="lg">
             <Link href="/contact">Book a Lesson</Link>
           </Button>
-          <a href={siteConfig.phoneHref} className="flex items-center justify-center gap-2 rounded-lg border border-mist px-4 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream">
-            <Phone className="h-4 w-4 text-forest" /> {siteConfig.phone}
+          <a href={site.phoneHref} className="flex items-center justify-center gap-2 rounded-lg border border-mist px-4 py-3 text-sm font-semibold text-ink transition-colors hover:bg-cream">
+            <Phone className="h-4 w-4 text-forest" /> {site.phone}
           </a>
-          <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]">
-            <MessageCircle className="h-4 w-4" /> {siteConfig.whatsappLabel}
+          <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]">
+            <MessageCircle className="h-4 w-4" /> {site.whatsappLabel}
           </a>
         </div>
 
-        <p className="mt-8 text-xs text-mist">{siteConfig.area} · {siteConfig.email}</p>
+        <p className="mt-8 text-xs text-mist">{site.area} · {site.email}</p>
       </motion.aside>
     </motion.div>
   );

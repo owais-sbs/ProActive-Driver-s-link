@@ -41,3 +41,21 @@ export async function PATCH(
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const supabase = adminClient();
+    const { error } = await supabase.from('bookings').delete().eq('id', params.id);
+
+    if (error) {
+      return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  }
+}

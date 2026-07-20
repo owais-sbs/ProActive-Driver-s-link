@@ -36,8 +36,10 @@ async function patchJSON<T>(url: string, body: unknown): Promise<T> {
 export function useCreateBooking() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: NewBooking) =>
-      postJSON<Booking>('/api/bookings', input),
+    mutationFn: async (input: NewBooking) => {
+      const data = await postJSON<{ booking: Booking }>('/api/bookings', input);
+      return data.booking;
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: BOOKINGS_KEY });
     },
@@ -48,20 +50,10 @@ export function useBookings() {
   return useQuery<Booking[]>({
     queryKey: BOOKINGS_KEY,
     queryFn: async () => {
-      try {
-        const res = await fetch('/api/bookings');
-        if (!res.ok) throw new Error('Failed to load bookings');
-        const data = await res.json();
-        const list = (data.bookings as Booking[]) ?? [];
-        if (list.length === 0) {
-          const { dummyBookings } = await import('@/lib/data/dummyBookings');
-          return dummyBookings;
-        }
-        return list;
-      } catch {
-        const { dummyBookings } = await import('@/lib/data/dummyBookings');
-        return dummyBookings;
-      }
+      const res = await fetch('/api/bookings');
+      if (!res.ok) throw new Error('Failed to load bookings');
+      const data = await res.json();
+      return (data.bookings as Booking[]) ?? [];
     },
   });
 }
@@ -70,10 +62,8 @@ export function useUpdateBookingStatus() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: BookingStatus }) => {
-      if (id.startsWith('demo-')) {
-        return { id, status } as Booking;
-      }
-      return patchJSON<Booking>(`/api/bookings/${id}`, { status });
+      const data = await patchJSON<{ booking: Booking }>(`/api/bookings/${id}`, { status });
+      return data.booking;
     },
     onSuccess: (_data, vars) => {
       qc.setQueryData<Booking[]>(BOOKINGS_KEY, (prev: Booking[] | undefined) =>
@@ -89,7 +79,8 @@ export function useDeleteBooking() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      // UI-only delete for now (demo + local cache)
+      const res = await fetch(`/api/bookings/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete booking');
       return id;
     },
     onSuccess: (id) => {

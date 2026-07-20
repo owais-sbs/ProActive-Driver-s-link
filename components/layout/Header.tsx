@@ -9,11 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Logo } from './Logo';
 import { MobileDrawer } from './MobileDrawer';
 import { siteConfig, navLinks } from '@/lib/data/site';
+import { useSiteConfig } from '@/lib/queries/useSiteSettings';
 import { cn } from '@/lib/utils';
 
 const TRANSPARENT_ROUTES = ['/', '/about', '/services', '/packages', '/contact'];
 
 export function Header() {
+  const site = useSiteConfig();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -88,14 +90,14 @@ export function Header() {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <a
-              href={siteConfig.phoneHref}
+              href={site.phoneHref}
               className={cn(
                 'hidden items-center gap-2 text-sm font-semibold md:flex',
                 transparent ? 'text-white' : 'text-ink'
               )}
             >
               <Phone className={cn('h-4 w-4', transparent ? 'text-sage' : 'text-forest')} />
-              {siteConfig.phone}
+              {site.phone}
             </a>
             <Button
               asChild

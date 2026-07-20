@@ -5,7 +5,8 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import { Phone, MessageCircle, CalendarCheck, ShieldCheck, Clock, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { siteConfig } from '@/lib/data/site';
+import { useSiteContent } from '@/lib/queries/useContent';
+import { useSiteConfig } from '@/lib/queries/useSiteSettings';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
 const trustBadges = [
@@ -18,27 +19,22 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
+  const { data: content } = useSiteContent();
+  const site = useSiteConfig();
+  const hero = content.hero;
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const carY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   return (
-<<<<<<< HEAD
-    <section ref={ref} className="relative overflow-x-hidden bg-[#070A08]">
-=======
     <section ref={ref} className="relative overflow-x-hidden bg-[#F9F9F7]">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       {/* Atmosphere */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-<<<<<<< HEAD
-            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(45,92,62,0.4), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(132,204,164,0.14), transparent 50%), linear-gradient(180deg, #070A08 0%, #0F1A12 45%, #F9F9F7 100%)',
-=======
             'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(45,92,62,0.4), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(132,204,164,0.14), transparent 50%), linear-gradient(180deg, #070A08 0%, #0F1A12 40%, #F9F9F7 88%, #F9F9F7 100%)',
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
         }}
       />
       <div
@@ -90,28 +86,23 @@ export function Hero() {
         <div className="flex min-h-[100svh] flex-col justify-center pb-10 pt-[4.5rem] lg:hidden">
           <RevealText from="right">
             <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage">
-              MTO-Approved · Toronto / GTA
+              {hero.eyebrow}
             </span>
           </RevealText>
 
           <RevealText from="right" delay={0.06}>
             <h1 className="mt-3 font-display text-[2.35rem] font-extrabold leading-[1.08] tracking-tight text-white">
-              Pass Your <span className="italic text-sage">G2 &amp; G</span> Driving Test With
-              Confidence!
+              {hero.title.replace(hero.titleAccent, '')}
+              <span className="italic text-sage">{hero.titleAccent}</span>
             </h1>
           </RevealText>
 
           <RevealText from="left" delay={0.1}>
-            <p className="mt-3 text-sm font-medium text-sage/90">
-              Where great drivers are made, <span className="italic">not born.</span>
-            </p>
+            <p className="mt-3 text-sm font-medium text-sage/90">{hero.tagline}</p>
           </RevealText>
 
           <RevealText from="right" delay={0.14}>
-            <p className="mt-3 max-w-md text-xs leading-relaxed text-white/65">
-              Private, one-on-one driving lessons across the GTA with flexible scheduling and
-              complimentary pick-up &amp; drop-off.
-            </p>
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-white/65">{hero.body}</p>
           </RevealText>
 
           <FadeIn delay={0.2} className="mt-6 flex flex-wrap items-center gap-2">
@@ -119,7 +110,7 @@ export function Hero() {
               asChild
               className="h-8 rounded-lg bg-sage px-3 text-xs font-semibold text-ink hover:bg-sage-light"
             >
-              <a href={siteConfig.phoneHref}>
+              <a href={site.phoneHref}>
                 <Phone className="h-3 w-3" /> Call
               </a>
             </Button>
@@ -128,7 +119,7 @@ export function Hero() {
               variant="outline"
               className="h-8 rounded-lg border-white/25 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10 hover:text-white"
             >
-              <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-3 w-3 text-emerald-400" /> WhatsApp
               </a>
             </Button>
@@ -168,7 +159,7 @@ export function Hero() {
           <FadeIn y={32}>
             <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
               <video
-                src="/videos/hero-screen.mp4"
+                src={hero.videoUrl}
                 className="aspect-[4/3] w-full object-cover"
                 autoPlay
                 muted
@@ -193,11 +184,7 @@ export function Hero() {
         </div>
 
         {/* ——— Desktop layout ——— */}
-<<<<<<< HEAD
-        <div className="hidden items-center gap-16 py-32 lg:grid lg:grid-cols-2 lg:pb-24 lg:pt-32">
-=======
         <div className="hidden items-center gap-16 py-28 lg:grid lg:grid-cols-2 lg:pb-16 lg:pt-28">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -209,7 +196,7 @@ export function Hero() {
               className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10"
             >
               <video
-                src="/videos/hero-screen.mp4"
+                src={hero.videoUrl}
                 className="aspect-[4/3] w-full object-cover"
                 autoPlay
                 muted
@@ -240,30 +227,24 @@ export function Hero() {
           <div className="pb-8">
             <RevealText from="right">
               <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-sage">
-                MTO-Approved · Toronto / GTA
+                {hero.eyebrow}
               </span>
             </RevealText>
             <RevealText from="right" delay={0.08}>
               <h1 className="mt-4 font-display text-[3.4rem] font-extrabold leading-[1.08] tracking-tight text-white">
-                Pass Your <span className="italic text-sage">G2 &amp; G</span> Driving Test With
-                Confidence!
+                {hero.title.replace(hero.titleAccent, '')}
+                <span className="italic text-sage">{hero.titleAccent}</span>
               </h1>
             </RevealText>
             <RevealText from="left" delay={0.14}>
-              <p className="mt-4 text-lg font-medium text-sage/90">
-                Where great drivers are made, <span className="italic">not born.</span>
-              </p>
+              <p className="mt-4 text-lg font-medium text-sage/90">{hero.tagline}</p>
             </RevealText>
             <RevealText from="right" delay={0.2}>
-              <p className="mt-4 max-w-xl text-base text-white/70">
-                Private, one-on-one driving lessons across the Greater Toronto Area with flexible
-                scheduling and complimentary pick-up &amp; drop-off. Patient, friendly, multilingual
-                instruction that gets you test-ready.
-              </p>
+              <p className="mt-4 max-w-xl text-base text-white/70">{hero.body}</p>
             </RevealText>
             <FadeIn delay={0.28} className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="bg-sage text-ink hover:bg-sage-light">
-                <a href={siteConfig.phoneHref}>
+                <a href={site.phoneHref}>
                   <Phone className="h-4 w-4" /> Call Now
                 </a>
               </Button>
@@ -273,7 +254,7 @@ export function Hero() {
                 variant="outline"
                 className="border-white/25 bg-white/5 text-white hover:bg-white/10 hover:text-white"
               >
-                <a href={siteConfig.whatsapp} target="_blank" rel="noopener noreferrer">
+                <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4 text-emerald-400" /> WhatsApp Now
                 </a>
               </Button>

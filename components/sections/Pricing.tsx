@@ -101,11 +101,7 @@ export function Pricing() {
   const g = packages.filter((p) => p.category === 'G').sort((a, b) => a.sort_order - b.sort_order);
 
   return (
-<<<<<<< HEAD
-    <section id="pricing" className="bg-cream py-16 sm:py-20 lg:py-28">
-=======
     <section id="pricing" className="bg-cream py-10 sm:py-12 lg:py-14">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <RevealText from="left">

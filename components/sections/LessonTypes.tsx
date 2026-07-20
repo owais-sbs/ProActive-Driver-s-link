@@ -1,55 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { GraduationCap, Route, RefreshCw, BookOpen, ArrowRight } from 'lucide-react';
+import { GraduationCap, Route, RefreshCw, BookOpen, ArrowRight, type LucideIcon } from 'lucide-react';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
+import { useSiteContent } from '@/lib/queries/useContent';
 
-const lessons = [
-  {
-    icon: GraduationCap,
-    title: 'G2 Preparation',
-    description:
-      'Master the basics and build confidence for your G2 exit test — steering, parking, signalling, and city driving.',
-    price: 'From $50 / hr',
-    image:
-      'https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    icon: Route,
-    title: 'G Road Test Prep',
-    description:
-      'Highway-focused training to help you upgrade to a full G licence with smooth merges and safe lane changes.',
-    price: 'From $55 / hr',
-    image:
-      'https://images.pexels.com/photos/97079/pexels-photo-97079.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Refresher Lessons',
-    description:
-      'Already licensed but out of practice? Targeted refresher sessions to rebuild confidence behind the wheel.',
-    price: 'From $50 / hr',
-    image:
-      'https://images.pexels.com/photos/3729464/pexels-photo-3729464.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    icon: BookOpen,
-    title: 'BDE Course (MTO-approved)',
-    description:
-      'Full 20-hour Beginner Driver Education program with in-car instruction and MTO certification.',
-    price: 'From $399',
-    image:
-      'https://images.pexels.com/photos/2076622/pexels-photo-2076622.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-];
+const lessonIcons: LucideIcon[] = [GraduationCap, Route, RefreshCw, BookOpen];
 
 export function LessonTypes() {
+  const { data: content } = useSiteContent();
+  const lessons = content.lessons.items.map((l, i) => ({
+    ...l,
+    icon: lessonIcons[i % lessonIcons.length],
+  }));
+
   return (
-<<<<<<< HEAD
-    <section id="services" className="bg-white py-20 lg:py-28">
-=======
     <section id="services" className="bg-white py-10 lg:py-14">
->>>>>>> c9f587eb743ccc8122bf9588835c869240d2e09b
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -82,42 +48,32 @@ export function LessonTypes() {
           {lessons.map((l, i) => (
             <FadeIn key={l.title} delay={i * 0.07} y={28}>
               <article className="group flex flex-col">
-                <div className="relative overflow-hidden rounded-2xl" style={{ height: 180 }}>
+                <div className="relative overflow-hidden rounded-xl">
                   <img
                     src={l.image}
                     alt={l.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
+                  <span className="absolute bottom-3 left-3 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-forest shadow-sm">
+                    <l.icon className="h-5 w-5" />
+                  </span>
                 </div>
-                <div className="mt-4 flex flex-1 flex-col px-0.5">
-                  <h3 className="text-[15px] font-bold leading-snug text-ink">{l.title}</h3>
-                  <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-ink/55">
-                    {l.description}
-                  </p>
-                  <p className="mt-2 text-sm text-mist">{l.price}</p>
-                  <div className="mt-4">
-                    <Link
-                      href="/contact"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 text-ink transition-all duration-200 hover:border-forest hover:bg-forest hover:text-white"
-                      aria-label={`Book ${l.title}`}
-                    >
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
+                <div className="mt-4 flex flex-1 flex-col">
+                  <h3 className="text-base font-bold text-ink">{l.title}</h3>
+                  <p className="mt-1.5 flex-1 text-sm leading-relaxed text-ink/60">{l.description}</p>
+                  <p className="mt-3 text-sm font-semibold text-forest">{l.price}</p>
+                  <Link
+                    href="/contact"
+                    className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-ink/70 transition-colors hover:text-forest"
+                  >
+                    Book now <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
               </article>
             </FadeIn>
           ))}
-        </div>
-
-        <div className="mt-8 flex justify-center sm:hidden">
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 px-5 py-2 text-sm font-medium text-ink hover:bg-cream"
-          >
-            Explore More <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
         </div>
       </div>
     </section>
