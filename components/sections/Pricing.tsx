@@ -1,8 +1,7 @@
 'use client';
 
-import { Check, Star, Loader2 } from 'lucide-react';
+import { Loader2, Star } from 'lucide-react';
 import Link from 'next/link';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { usePricing } from '@/lib/queries/useBookings';
 import { defaultPricing } from '@/lib/data/pricing';
@@ -10,98 +9,115 @@ import type { PricingPackage } from '@/types/pricing';
 import { cn } from '@/lib/utils';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
-function PriceCard({
-  pkg,
-  index,
-  className,
-}: {
-  pkg: PricingPackage;
-  index: number;
-  className?: string;
-}) {
+function packageBadge(pkg: PricingPackage): string | null {
+  if (pkg.highlighted) return 'Best Value';
+  const label = `${pkg.description ?? ''} ${pkg.period ?? ''}`.toLowerCase();
+  if (label.includes('most popular')) return 'Most Popular';
+  if (label.includes('recommended')) return 'Recommended';
+  if (label.includes('best value')) return 'Best Value';
+  return null;
+}
+
+function PriceCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
+  const badge = packageBadge(pkg);
+
   return (
-    <FadeIn delay={Math.min(index * 0.06, 0.18)} y={20} className={className}>
-      <div
+    <FadeIn delay={Math.min(index * 0.03, 0.18)} y={18} className="h-full">
+      <article
         className={cn(
-          'relative flex h-full flex-col rounded-xl border bg-white p-6 sm:p-7 card-hover',
-          pkg.highlighted ? 'border-forest ring-1 ring-forest' : 'border-mist'
+          'group relative flex h-full flex-col overflow-hidden rounded-[20px] border border-mist/80 bg-white p-5 shadow-[0_4px_20px_rgba(17,24,39,0.04)] transition-all duration-300 sm:p-6',
+          'hover:-translate-y-1.5 hover:shadow-[0_12px_32px_rgba(17,24,39,0.1)]',
+          pkg.highlighted && 'border-forest/40 ring-1 ring-forest/20'
         )}
       >
-        {pkg.highlighted && (
-          <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-forest px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-            <Star className="h-3 w-3 fill-white" /> Best Value
+        {/* Brand accent bar (reference-style top edge) */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-forest via-sage to-moss"
+        />
+
+        {badge && (
+          <span className="mb-3 inline-flex w-fit items-center gap-1 rounded-full bg-forest px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+            <Star className="h-3 w-3 fill-white" />
+            {badge}
           </span>
         )}
-        <h3 className="text-lg font-bold text-ink">{pkg.name}</h3>
-        {pkg.description && <p className="mt-1 text-sm text-ink/60">{pkg.description}</p>}
-        <div className="mt-5 flex items-end gap-1">
-          <span className="font-display text-3xl font-extrabold text-ink sm:text-4xl">
-            {pkg.price}
-          </span>
-          {pkg.period && <span className="mb-1 text-sm text-mist">/{pkg.period}</span>}
+
+        <h3 className="text-sm font-semibold text-ink/85 sm:text-[15px]">{pkg.name}</h3>
+
+        <p className="mt-3 font-display text-[1.75rem] font-extrabold leading-none tracking-tight text-forest sm:text-3xl">
+          {pkg.price}
+        </p>
+
+        {pkg.description && (
+          <p className="mt-2.5 text-xs italic leading-snug text-ink/45 sm:text-[13px]">
+            {pkg.description}
+          </p>
+        )}
+
+        <div className="mt-auto pt-5">
+          <Button
+            asChild
+            className="w-full bg-forest text-white shadow-sm transition group-hover:bg-forest-light hover:bg-forest-light"
+          >
+            <Link href="/contact">Book Now</Link>
+          </Button>
         </div>
-        <ul className="mt-5 flex-1 space-y-2.5 sm:mt-6 sm:space-y-3">
-          {pkg.features.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-sm text-ink/75">
-              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cream text-forest">
-                <Check className="h-3.5 w-3.5" />
-              </span>
-              {f}
-            </li>
-          ))}
-        </ul>
-        <Button
-          asChild
-          className={cn(
-            'mt-6 w-full sm:mt-7',
-            pkg.highlighted
-              ? 'bg-forest text-white hover:bg-forest-light'
-              : 'bg-ink text-white hover:bg-ink-light'
-          )}
-        >
-          <Link href="/contact">Book This Package</Link>
-        </Button>
-      </div>
+      </article>
     </FadeIn>
   );
 }
 
-function PackageScroller({ items }: { items: PricingPackage[] }) {
-  return (
-    <>
-      {/* Mobile: horizontal snap scroll */}
-      <div className="-mx-4 md:hidden">
-        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 scrollbar-none">
-          {items.map((p, i) => (
-            <PriceCard
-              key={p.name}
-              pkg={p}
-              index={i}
-              className="w-[85vw] max-w-[320px] shrink-0 snap-center"
-            />
-          ))}
-        </div>
-        <p className="mt-2 text-center text-[11px] text-mist">Swipe for more packages →</p>
-      </div>
+function PackageGrid({ items }: { items: PricingPackage[] }) {
+  if (items.length === 0) return null;
 
-      {/* Tablet/Desktop: grid */}
-      <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
-        {items.map((p, i) => (
-          <PriceCard key={p.name} pkg={p} index={i} />
-        ))}
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+      {items.map((p, i) => (
+        <PriceCard key={p.id ?? `${p.category}-${p.name}-${i}`} pkg={p} index={i} />
+      ))}
+    </div>
+  );
+}
+
+function PackageSection({
+  title,
+  items,
+}: {
+  title: string;
+  items: PricingPackage[];
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div>
+      <div className="mb-6 text-center sm:mb-8">
+        <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">{title}</h3>
+        <span
+          aria-hidden
+          className="mx-auto mt-2.5 block h-0.5 w-12 rounded-full bg-forest/70"
+        />
       </div>
-    </>
+      <PackageGrid items={items} />
+    </div>
   );
 }
 
 export function Pricing() {
   const { data, isLoading } = usePricing();
   const packages: PricingPackage[] = data && data.length > 0 ? data : defaultPricing;
-  const g2 = packages.filter((p) => p.category === 'G2').sort((a, b) => a.sort_order - b.sort_order);
-  const g = packages.filter((p) => p.category === 'G').sort((a, b) => a.sort_order - b.sort_order);
+
+  const sorted = (category: string) =>
+    packages
+      .filter((p) => p.category === category)
+      .sort((a, b) => a.sort_order - b.sort_order);
+
+  const g2 = sorted('G2');
+  const g = sorted('G');
+  const bde = sorted('BDE');
 
   return (
-    <section id="pricing" className="bg-cream py-10 sm:py-12 lg:py-14">
+    <section id="pricing" className="bg-cream py-8 sm:py-10 lg:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <RevealText from="left">
@@ -114,8 +130,7 @@ export function Pricing() {
           </RevealText>
           <RevealText from="right" delay={0.14}>
             <p className="mt-3 text-sm text-ink/65 sm:mt-4 sm:text-base">
-              Choose the package that fits your goal. Every package includes pick-up &amp;
-              drop-off, all-weather training, and defensive driving skills.
+              Compare lesson packages side by side. Prices include HST where noted.
             </p>
           </RevealText>
         </div>
@@ -127,33 +142,14 @@ export function Pricing() {
         )}
 
         {!isLoading && (
-          <Tabs defaultValue="g2" className="mt-10 sm:mt-12">
-            <div className="flex justify-center">
-              <TabsList className="border border-mist bg-white">
-                <TabsTrigger
-                  value="g2"
-                  className="data-[state=active]:bg-forest data-[state=active]:text-white"
-                >
-                  G2 Packages
-                </TabsTrigger>
-                <TabsTrigger
-                  value="g"
-                  className="data-[state=active]:bg-forest data-[state=active]:text-white"
-                >
-                  G Packages
-                </TabsTrigger>
-              </TabsList>
-            </div>
-            <TabsContent value="g2" className="mt-8 sm:mt-10">
-              <PackageScroller items={g2} />
-            </TabsContent>
-            <TabsContent value="g" className="mt-8 sm:mt-10">
-              <PackageScroller items={g} />
-            </TabsContent>
-          </Tabs>
+          <div className="mt-10 space-y-14 sm:mt-12 sm:space-y-16 lg:space-y-20">
+            <PackageSection title="G2 Packages" items={g2} />
+            <PackageSection title="G Packages" items={g} />
+            <PackageSection title="Beginner Driver Education (BDE)" items={bde} />
+          </div>
         )}
 
-        <p className="mt-8 text-center text-xs text-mist">
+        <p className="mt-10 text-center text-xs text-mist sm:mt-12">
           Booking confirmed only after e-transfer payment. See the booking form for details.
         </p>
       </div>

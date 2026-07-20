@@ -1,81 +1,112 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {
-  Loader2,
-  Save,
-  Plus,
-  Trash2,
-  Star,
-  Check,
-  LayoutGrid,
-  Table2,
-  Pencil,
-} from 'lucide-react';
+import { Loader2, Save, Plus, Trash2, Check, Pencil, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { usePricing, useSavePricing } from '@/lib/queries/useBookings';
 import { defaultPricing } from '@/lib/data/pricing';
-import type { PricingPackage } from '@/types/pricing';
+import type { PricingCategory, PricingPackage } from '@/types/pricing';
 import { cn } from '@/lib/utils';
 
-type ViewMode = 'cards' | 'table';
+type Draft = PricingPackage & { _index: number | null };
+
+function emptyDraft(category: PricingCategory, sortOrder: number): Draft {
+  return {
+    _index: null,
+    category,
+    name: '',
+    price: '',
+    description: 'HST included',
+    features: [],
+    highlighted: false,
+    sort_order: sortOrder,
+  };
+}
 
 export function PricingEditor() {
   const { data, isLoading } = usePricing();
   const savePricing = useSavePricing();
   const [packages, setPackages] = useState<PricingPackage[]>(defaultPricing);
   const [saved, setSaved] = useState(false);
-  const [view, setView] = useState<ViewMode>('cards');
-  const [editing, setEditing] = useState<number | null>(null);
+  const [draft, setDraft] = useState<Draft | null>(null);
 
   useEffect(() => {
     if (data && data.length > 0) setPackages(data);
   }, [data]);
 
-  const update = (index: number, patch: Partial<PricingPackage>) => {
-    setPackages((prev) => prev.map((p, i) => (i === index ? { ...p, ...patch } : p)));
-    setSaved(false);
+  const openCreate = (category: PricingCategory) => {
+    const sortOrder = packages.filter((p) => p.category === category).length + 1;
+    setDraft(emptyDraft(category, sortOrder));
   };
 
-  const updateFeatures = (index: number, featuresText: string) => {
-    const features = featuresText
-      .split('\n')
-      .map((f) => f.trim())
-      .filter(Boolean);
-    update(index, { features });
+  const openEdit = (index: number) => {
+    setDraft({ ...packages[index], _index: index });
+  };
+
+  const closeModal = () => setDraft(null);
+
+  const updateDraft = (patch: Partial<PricingPackage>) => {
+    setDraft((prev) => (prev ? { ...prev, ...patch } : prev));
+  };
+
+  const persist = (next: PricingPackage[]) => {
+    setPackages(next);
+    setSaved(false);
+    savePricing.mutate(next, { onSuccess: () => setSaved(true) });
+  };
+
+  const saveDraft = () => {
+    if (!draft) return;
+    if (!draft.name.trim() || !draft.price.trim()) {
+      window.alert('Please enter a title and price.');
+      return;
+    }
+
+    const { _index, ...pkg } = draft;
+    const cleaned: PricingPackage = {
+      ...pkg,
+      name: pkg.name.trim(),
+      price: pkg.price.trim(),
+      description: pkg.description?.trim() || '',
+      features: [],
+      period: undefined,
+      highlighted: pkg.highlighted ?? false,
+    };
+
+    const next =
+      _index === null
+        ? [...packages, cleaned]
+        : packages.map((p, i) => (i === _index ? { ...cleaned, id: p.id } : p));
+
+    persist(next);
+    closeModal();
   };
 
   const remove = (index: number) => {
     const name = packages[index]?.name ?? 'this package';
-    if (!window.confirm(`Delete package “${name}”?`)) return;
-    setPackages((prev) => prev.filter((_, i) => i !== index));
-    setEditing(null);
-    setSaved(false);
+    if (!window.confirm(`Delete “${name}”?`)) return;
+    persist(packages.filter((_, i) => i !== index));
+    if (draft?._index === index) closeModal();
   };
 
-  const add = (category: 'G2' | 'G') => {
-    const next: PricingPackage = {
-      category,
-      name: 'New Package',
-      price: '$0',
-      period: 'package',
-      description: 'Short description…',
-      features: ['Feature one', 'Feature two'],
-      highlighted: false,
-      sort_order: packages.filter((p) => p.category === category).length + 1,
-    };
-    setPackages((prev) => [...prev, next]);
-    setEditing(packages.length);
-    setView('cards');
-    setSaved(false);
-  };
-
-  const onSave = () => {
-    savePricing.mutate(packages, { onSuccess: () => setSaved(true) });
+  const loadDefaults = () => {
+    if (
+      !window.confirm(
+        'Replace all packages with the full 16 lesson cards (8 G2 + 8 G) and publish to the site?'
+      )
+    ) {
+      return;
+    }
+    persist(defaultPricing);
   };
 
   if (isLoading) {
@@ -87,46 +118,32 @@ export function PricingEditor() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div className="space-y-10">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">
             Packages
           </h1>
           <p className="mt-1 text-sm text-ink/60">
-            Same card look as the public site. Toggle cards or table — delete anytime.
+            Same cards as the public site — {packages.length} total. Click a card to edit.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1">
-            <button
-              type="button"
-              onClick={() => setView('cards')}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition',
-                view === 'cards' ? 'bg-forest text-white' : 'text-ink/60 hover:bg-cream'
-              )}
-            >
-              <LayoutGrid className="h-3.5 w-3.5" /> Cards
-            </button>
-            <button
-              type="button"
-              onClick={() => setView('table')}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition',
-                view === 'table' ? 'bg-forest text-white' : 'text-ink/60 hover:bg-cream'
-              )}
-            >
-              <Table2 className="h-3.5 w-3.5" /> Table
-            </button>
-          </div>
           {saved && (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-              <Check className="h-3.5 w-3.5" /> Saved
+              <Check className="h-3.5 w-3.5" /> Live on site
             </span>
           )}
+          {savePricing.isPending && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-ink/50">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Saving…
+            </span>
+          )}
+          <Button variant="outline" size="sm" onClick={loadDefaults}>
+            Load all 16 lesson cards
+          </Button>
           <Button
-            onClick={onSave}
+            onClick={() => persist(packages)}
             disabled={savePricing.isPending}
             className="bg-forest text-white hover:bg-forest-light"
           >
@@ -135,117 +152,81 @@ export function PricingEditor() {
             ) : (
               <Save className="h-4 w-4" />
             )}
-            Save
+            Save all
           </Button>
         </div>
       </div>
 
-      {(['G2', 'G'] as const).map((category) => {
-        const items = packages.map((p, i) => ({ p, i })).filter(({ p }) => p.category === category);
+      {(['G2', 'G', 'BDE'] as const).map((category) => {
+        const items = packages
+          .map((p, i) => ({ p, i }))
+          .filter(({ p }) => p.category === category)
+          .sort((a, b) => a.p.sort_order - b.p.sort_order);
+
+        if (category === 'BDE' && items.length === 0) return null;
+
+        const title =
+          category === 'BDE' ? 'Beginner Driver Education (BDE)' : `${category} Packages`;
 
         return (
-          <section key={category} className="space-y-4">
+          <section key={category} className="space-y-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-lg font-bold text-ink">{category} Packages</h2>
+              <div className="text-center sm:text-left">
+                <h2 className="font-display text-xl font-extrabold text-ink">{title}</h2>
+                <span className="mt-1 inline-block h-0.5 w-12 rounded-full bg-forest/70" />
+                <p className="mt-1 text-xs text-ink/50">{items.length} cards</p>
+              </div>
               <Button
-                variant="outline"
                 size="sm"
-                onClick={() => add(category)}
-                className="border-forest/25 text-ink hover:bg-forest hover:text-white"
+                onClick={() => openCreate(category)}
+                className="bg-forest text-white hover:bg-forest-light"
               >
                 <Plus className="h-4 w-4" /> Create package
               </Button>
             </div>
 
-            {view === 'cards' ? (
-              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                {items.map(({ p, i }) => (
-                  <div key={`${category}-${i}`} className="relative">
-                    {editing === i ? (
-                      <EditPanel
-                        p={p}
-                        i={i}
-                        update={update}
-                        updateFeatures={updateFeatures}
-                        onDone={() => setEditing(null)}
-                        onDelete={() => remove(i)}
-                      />
-                    ) : (
-                      <PublicStyleCard
-                        pkg={p}
-                        onEdit={() => setEditing(i)}
-                        onDelete={() => remove(i)}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
+            {items.length === 0 ? (
+              <button
+                type="button"
+                onClick={() => openCreate(category)}
+                className="flex w-full flex-col items-center justify-center gap-2 rounded-[20px] border border-dashed border-mist bg-white/60 px-6 py-12 text-sm text-ink/50 hover:border-forest/40 hover:bg-white hover:text-forest"
+              >
+                <Plus className="h-5 w-5" />
+                No {category} packages — create one
+              </button>
             ) : (
-              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[640px] text-sm">
-                    <thead className="bg-slate-50 text-left text-xs uppercase tracking-wider text-ink/55">
-                      <tr>
-                        <th className="px-4 py-3 font-semibold">Name</th>
-                        <th className="px-4 py-3 font-semibold">Price</th>
-                        <th className="px-4 py-3 font-semibold">Period</th>
-                        <th className="px-4 py-3 font-semibold">Best value</th>
-                        <th className="px-4 py-3 font-semibold">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                      {items.map(({ p, i }) => (
-                        <tr key={i} className="hover:bg-slate-50/80">
-                          <td className="px-4 py-3 font-medium text-ink">{p.name}</td>
-                          <td className="px-4 py-3 text-ink/70">{p.price}</td>
-                          <td className="px-4 py-3 text-ink/70">{p.period}</td>
-                          <td className="px-4 py-3">
-                            {p.highlighted ? (
-                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-forest">
-                                <Star className="h-3.5 w-3.5 fill-forest" /> Yes
-                              </span>
-                            ) : (
-                              <span className="text-xs text-ink/40">No</span>
-                            )}
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setView('cards');
-                                  setEditing(i);
-                                }}
-                                className="grid h-8 w-8 place-items-center rounded-lg text-ink/60 hover:bg-cream"
-                                aria-label="Edit"
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => remove(i)}
-                                className="grid h-8 w-8 place-items-center rounded-lg text-red-600 hover:bg-red-50"
-                                aria-label="Delete"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+                {items.map(({ p, i }) => (
+                  <AdminPriceCard
+                    key={p.id ?? `${category}-${i}-${p.name}`}
+                    pkg={p}
+                    onEdit={() => openEdit(i)}
+                    onDelete={() => remove(i)}
+                  />
+                ))}
               </div>
             )}
           </section>
         );
       })}
+
+      <PackageModal
+        draft={draft}
+        saving={savePricing.isPending}
+        onClose={closeModal}
+        onChange={updateDraft}
+        onSave={saveDraft}
+        onDelete={
+          draft?._index !== null && draft?._index !== undefined
+            ? () => remove(draft._index!)
+            : undefined
+        }
+      />
     </div>
   );
 }
 
-function PublicStyleCard({
+function AdminPriceCard({
   pkg,
   onEdit,
   onDelete,
@@ -256,134 +237,180 @@ function PublicStyleCard({
 }) {
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={onEdit}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onEdit();
+        }
+      }}
       className={cn(
-        'relative flex h-full flex-col rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md',
-        pkg.highlighted ? 'border-forest ring-1 ring-forest' : 'border-mist'
+        'group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-[20px] border border-mist/80 bg-white p-5 shadow-[0_4px_20px_rgba(17,24,39,0.04)] transition-all duration-300 sm:p-6',
+        'hover:-translate-y-1.5 hover:shadow-[0_12px_32px_rgba(17,24,39,0.1)]',
+        pkg.highlighted && 'border-forest/40 ring-1 ring-forest/20'
       )}
     >
-      {pkg.highlighted && (
-        <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-forest px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-          <Star className="h-3 w-3 fill-white" /> Best Value
-        </span>
-      )}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-forest via-sage to-moss"
+      />
 
-      <div className="absolute right-3 top-3 flex gap-1">
+      <div className="absolute right-2 top-3 z-10 flex gap-1">
         <button
           type="button"
-          onClick={onEdit}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
           className="grid h-8 w-8 place-items-center rounded-lg bg-cream text-ink/70 hover:bg-forest hover:text-white"
-          aria-label="Edit package"
+          aria-label="Edit"
         >
           <Pencil className="h-3.5 w-3.5" />
         </button>
         <button
           type="button"
-          onClick={onDelete}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
           className="grid h-8 w-8 place-items-center rounded-lg bg-cream text-red-600 hover:bg-red-50"
-          aria-label="Delete package"
+          aria-label="Delete"
         >
           <Trash2 className="h-3.5 w-3.5" />
         </button>
       </div>
 
-      <h3 className="pr-16 text-lg font-bold text-ink">{pkg.name}</h3>
-      {pkg.description && <p className="mt-1 text-sm text-ink/60">{pkg.description}</p>}
-      <div className="mt-4 flex items-end gap-1">
-        <span className="font-display text-3xl font-extrabold text-ink">{pkg.price}</span>
-        {pkg.period && <span className="mb-1 text-sm text-mist">/{pkg.period}</span>}
-      </div>
-      <ul className="mt-5 flex-1 space-y-2.5">
-        {pkg.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-sm text-ink/75">
-            <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cream text-forest">
-              <Check className="h-3.5 w-3.5" />
-            </span>
-            {f}
-          </li>
-        ))}
-      </ul>
+      {pkg.highlighted && (
+        <span className="mb-3 inline-flex w-fit items-center gap-1 rounded-full bg-forest px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <Star className="h-3 w-3 fill-white" /> Best Value
+        </span>
+      )}
+
+      <h3 className="pr-16 text-sm font-semibold text-ink/85 sm:text-[15px]">{pkg.name}</h3>
+      <p className="mt-3 font-display text-[1.75rem] font-extrabold leading-none tracking-tight text-forest sm:text-3xl">
+        {pkg.price}
+      </p>
+      {pkg.description && (
+        <p className="mt-2.5 text-xs italic leading-snug text-ink/45 sm:text-[13px]">
+          {pkg.description}
+        </p>
+      )}
     </div>
   );
 }
 
-function EditPanel({
-  p,
-  i,
-  update,
-  updateFeatures,
-  onDone,
+function PackageModal({
+  draft,
+  saving,
+  onClose,
+  onChange,
+  onSave,
   onDelete,
 }: {
-  p: PricingPackage;
-  i: number;
-  update: (index: number, patch: Partial<PricingPackage>) => void;
-  updateFeatures: (index: number, text: string) => void;
-  onDone: () => void;
-  onDelete: () => void;
+  draft: Draft | null;
+  saving: boolean;
+  onClose: () => void;
+  onChange: (patch: Partial<PricingPackage>) => void;
+  onSave: () => void;
+  onDelete?: () => void;
 }) {
+  const isCreate = draft?._index === null;
+
   return (
-    <div className="rounded-2xl border border-forest/30 bg-white p-5 shadow-md ring-1 ring-forest/10">
-      <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-forest">Editing</p>
-        <div className="flex gap-1">
-          <Button size="sm" onClick={onDone} className="bg-forest text-white hover:bg-forest-light">
-            Done
-          </Button>
-          <button
-            type="button"
-            onClick={onDelete}
-            className="grid h-9 w-9 place-items-center rounded-lg text-red-600 hover:bg-red-50"
-            aria-label="Delete"
-          >
-            <Trash2 className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-      <div className="space-y-3">
-        <div className="space-y-1">
-          <Label>Name</Label>
-          <Input value={p.name} onChange={(e) => update(i, { name: e.target.value })} />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <Label>Price</Label>
-            <Input value={p.price} onChange={(e) => update(i, { price: e.target.value })} />
+    <Dialog open={!!draft} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-sm overflow-hidden border-mist bg-white p-0 sm:rounded-[20px]">
+        {draft && (
+          <div className="p-6">
+            <DialogHeader className="mb-5 text-left">
+              <DialogTitle className="font-display text-xl font-extrabold text-ink">
+                {isCreate ? `New ${draft.category} card` : 'Edit package card'}
+              </DialogTitle>
+              <DialogDescription className="text-sm text-ink/55">
+                Title, price, and subtitle — same fields as the public cards.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="mb-5 overflow-hidden rounded-[20px] border border-mist bg-white p-5 shadow-sm">
+              <span className="mb-3 block h-[3px] w-full rounded-full bg-gradient-to-r from-forest via-sage to-moss" />
+              <p className="text-sm font-semibold text-ink/85">
+                {draft.name || 'Package title'}
+              </p>
+              <p className="mt-3 font-display text-2xl font-extrabold text-forest">
+                {draft.price || '$0'}
+              </p>
+              <p className="mt-2 text-xs italic text-ink/45">
+                {draft.description || 'Subtitle'}
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <div className="space-y-1">
+                <Label>Title</Label>
+                <Input
+                  placeholder="e.g. 1 Hour Lesson"
+                  value={draft.name}
+                  onChange={(e) => onChange({ name: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Price</Label>
+                <Input
+                  placeholder="e.g. $56.50"
+                  value={draft.price}
+                  onChange={(e) => onChange({ price: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Subtitle</Label>
+                <Input
+                  placeholder="e.g. HST included"
+                  value={draft.description ?? ''}
+                  onChange={(e) => onChange({ description: e.target.value })}
+                />
+              </div>
+              <label className="flex items-center gap-2 pt-1 text-sm text-ink/70">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-mist"
+                  checked={draft.highlighted}
+                  onChange={(e) => onChange({ highlighted: e.target.checked })}
+                />
+                Best Value badge
+              </label>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <Button
+                onClick={onSave}
+                disabled={saving}
+                className="flex-1 bg-forest text-white hover:bg-forest-light"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                {isCreate ? 'Create & publish' : 'Save & publish'}
+              </Button>
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              {onDelete && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={onDelete}
+                  className="border-red-200 text-red-600 hover:bg-red-50"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
           </div>
-          <div className="space-y-1">
-            <Label>Period</Label>
-            <Input
-              value={p.period ?? ''}
-              onChange={(e) => update(i, { period: e.target.value })}
-            />
-          </div>
-        </div>
-        <div className="space-y-1">
-          <Label>Description</Label>
-          <Textarea
-            rows={2}
-            value={p.description ?? ''}
-            onChange={(e) => update(i, { description: e.target.value })}
-          />
-        </div>
-        <div className="space-y-1">
-          <Label>Features (one per line)</Label>
-          <Textarea
-            rows={4}
-            value={p.features.join('\n')}
-            onChange={(e) => updateFeatures(i, e.target.value)}
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id={`hl-${i}`}
-            checked={p.highlighted}
-            onCheckedChange={(c) => update(i, { highlighted: c === true })}
-          />
-          <Label htmlFor={`hl-${i}`} className="text-sm">
-            Highlight as Best Value
-          </Label>
-        </div>
-      </div>
-    </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

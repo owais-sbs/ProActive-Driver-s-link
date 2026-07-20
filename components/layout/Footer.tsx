@@ -38,7 +38,7 @@ export function Footer() {
           {/* Brand */}
           <div className="text-center sm:text-left">
             <div className="flex justify-center sm:justify-start">
-              <Logo variant="light" size="sm" />
+              <Logo variant="light" size="md" />
             </div>
             <p className="mx-auto mt-4 max-w-xs text-sm text-white/60 sm:mx-0">
               {site.tagline} Private, MTO-approved driving lessons across the Greater Toronto

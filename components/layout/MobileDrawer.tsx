@@ -19,14 +19,14 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
         className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-white p-6 shadow-2xl"
         role="dialog" aria-modal="true" aria-label="Site menu"
       >
-        <div className="flex items-center justify-between">
-          <Logo variant="dark" />
-          <button type="button" onClick={onClose} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-lg text-ink transition-colors hover:bg-cream">
+        <div className="flex items-center justify-between gap-3">
+          <Logo variant="dark" size="md" />
+          <button type="button" onClick={onClose} aria-label="Close menu" className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-ink transition-colors hover:bg-cream">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="mt-8 flex flex-col gap-1" aria-label="Mobile">
+        <nav className="mt-5 flex flex-col gap-0.5" aria-label="Mobile">
           {navLinks.map((link, i) => (
             <motion.div key={link.href} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 + i * 0.05 }}>
               <Link href={link.href} className="flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-ink/80 transition-colors hover:bg-cream hover:text-forest">
@@ -37,7 +37,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
           ))}
         </nav>
 
-        <div className="mt-8 flex flex-col gap-3">
+        <div className="mt-5 flex flex-col gap-2.5">
           <Button asChild className="bg-forest text-white hover:bg-forest-light" size="lg">
             <Link href="/contact">Book a Lesson</Link>
           </Button>
@@ -49,7 +49,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
           </a>
         </div>
 
-        <p className="mt-8 text-xs text-mist">{site.area} · {site.email}</p>
+        <p className="mt-5 text-xs text-mist">{site.area} · {site.email}</p>
       </motion.aside>
     </motion.div>
   );

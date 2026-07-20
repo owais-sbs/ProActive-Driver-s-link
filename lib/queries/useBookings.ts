@@ -95,12 +95,13 @@ export function usePricing() {
   return useQuery<PricingPackage[]>({
     queryKey: PRICING_KEY,
     queryFn: async () => {
-      const res = await fetch('/api/pricing');
+      const res = await fetch('/api/pricing', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to load pricing');
       const data = await res.json();
       return data.packages as PricingPackage[];
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -109,7 +110,8 @@ export function useSavePricing() {
   return useMutation({
     mutationFn: (packages: PricingPackage[]) =>
       postJSON<{ ok: boolean }>('/api/pricing', { packages }),
-    onSuccess: () => {
+    onSuccess: (_data, packages) => {
+      qc.setQueryData(PRICING_KEY, packages);
       qc.invalidateQueries({ queryKey: PRICING_KEY });
     },
   });

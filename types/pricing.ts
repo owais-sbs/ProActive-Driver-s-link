@@ -1,4 +1,4 @@
-export type PricingCategory = 'G2' | 'G';
+export type PricingCategory = 'G2' | 'G' | 'BDE';
 
 export interface PricingPackage {
   id?: string;

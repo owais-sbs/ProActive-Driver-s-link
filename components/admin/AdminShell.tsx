@@ -92,13 +92,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       >
         <div
           className={cn(
-            'flex h-[72px] shrink-0 items-center border-b border-slate-100',
+            'flex h-[84px] shrink-0 items-center border-b border-slate-100',
             collapsed ? 'justify-center px-2' : 'gap-2 px-3'
           )}
         >
           {!collapsed && (
-            <Link href="/" className="min-w-0 flex-1">
-              <Logo variant="dark" size="sm" />
+            <Link href="/" className="min-w-0 flex-1 overflow-hidden">
+              <Logo variant="dark" size="md" />
             </Link>
           )}
           <button
@@ -153,8 +153,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             onClick={() => setMobileOpen(false)}
           />
           <aside className="absolute inset-y-0 left-0 flex w-[min(100%,18rem)] flex-col bg-white shadow-xl">
-            <div className="flex h-[72px] items-center justify-between border-b border-slate-100 px-3">
-              <Logo variant="dark" size="sm" />
+            <div className="flex h-[84px] items-center justify-between border-b border-slate-100 px-3">
+              <Logo variant="dark" size="md" />
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -194,7 +194,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
         )}
       >
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/95 px-3 backdrop-blur sm:px-4 lg:h-[72px] lg:px-8">
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between gap-3 border-b border-slate-200 bg-white/95 px-3 backdrop-blur sm:px-4 lg:h-[84px] lg:px-8">
           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
@@ -205,7 +205,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Menu className="h-5 w-5" />
             </button>
             <div className="min-w-0 lg:hidden">
-              <Logo variant="dark" size="sm" />
+              <Logo variant="dark" size="md" />
             </div>
             <p className="hidden truncate text-sm text-ink/60 lg:block">
               Signed in as <span className="font-semibold text-ink">{user.email}</span>
@@ -221,7 +221,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </button>
         </header>
 
-        <div className="px-3 py-5 sm:px-4 sm:py-6 lg:px-8 lg:py-8">{children}</div>
+        <div className="px-3 py-4 sm:px-4 sm:py-5 lg:px-8 lg:py-6">{children}</div>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { bookingSchema, lessonTypes, type BookingFormValues } from '@/lib/schemas/booking';
 import { useCreateBooking } from '@/lib/queries/useBookings';
+import { useSiteConfig } from '@/lib/queries/useSiteSettings';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
 const fieldClass =
@@ -21,6 +22,7 @@ const fieldClass =
 export function BookingForm() {
   const [success, setSuccess] = useState(false);
   const createBooking = useCreateBooking();
+  const site = useSiteConfig();
 
   const {
     register, handleSubmit, reset, setValue, watch,
@@ -38,31 +40,32 @@ export function BookingForm() {
 
   const onSubmit = async (values: BookingFormValues) => {
     setSuccess(false);
-    await createBooking.mutateAsync(values);
+    const { confirm: _confirm, ...payload } = values;
+    await createBooking.mutateAsync(payload);
     setSuccess(true);
     reset();
   };
 
   return (
-    <section id="book" className="bg-white py-12 lg:py-14">
+    <section id="book" className="bg-white py-8 sm:py-10 lg:py-12">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <RevealText from="left">
             <span className="section-label">Book a Lesson</span>
           </RevealText>
           <RevealText from="left" delay={0.08}>
-            <h2 className="mt-3 font-display text-3xl font-extrabold text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-2xl font-extrabold text-ink sm:mt-3 sm:text-4xl">
               Reserve <span className="italic text-forest">your spot</span>
             </h2>
           </RevealText>
           <RevealText from="right" delay={0.14}>
-            <p className="mt-3 text-sm text-ink/65 sm:mt-4 sm:text-base">
-              Fill out the form below and we’ll be in touch to confirm your lesson.
+            <p className="mt-2 text-sm text-ink/65 sm:mt-3 sm:text-base">
+              Fill out the form below — we’ll confirm your lesson and send payment instructions.
             </p>
           </RevealText>
         </div>
 
-        <FadeIn delay={0.1} className="mt-10 rounded-2xl border border-mist bg-cream p-6 sm:p-8">
+        <FadeIn delay={0.1} className="mt-6 rounded-2xl border border-mist bg-cream p-4 sm:mt-8 sm:p-8">
           {success && (
             <div role="status" className="mb-6 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
               <CheckCircle2 className="mt-0.5 h-5 w-5 text-emerald-600" />
@@ -83,8 +86,8 @@ export function BookingForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-            <div className="grid gap-5 sm:grid-cols-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5" noValidate>
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
               <div className="space-y-1.5">
                 <Label htmlFor="full_name">Full Name *</Label>
                 <input id="full_name" className={fieldClass} {...register('full_name')} placeholder="Your name" />
@@ -97,7 +100,7 @@ export function BookingForm() {
               </div>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
               <div className="space-y-1.5">
                 <Label htmlFor="email">Email *</Label>
                 <input id="email" type="email" className={fieldClass} {...register('email')} placeholder="you@example.com" />
@@ -121,7 +124,7 @@ export function BookingForm() {
               {errors.preferred_time && <p className="text-xs text-red-600">{errors.preferred_time.message}</p>}
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
               <div className="space-y-1.5">
                 <Label htmlFor="pick_up_location">Pick-Up Location *</Label>
                 <input id="pick_up_location" className={fieldClass} {...register('pick_up_location')} placeholder="e.g. Home, school, workplace" />
@@ -150,7 +153,7 @@ export function BookingForm() {
               <p className="font-semibold text-ink">Payment Instructions</p>
               <p className="mt-1">
                 Please send an e-transfer to{' '}
-                <span className="font-semibold text-forest">info@turboteach.ca</span>{' '}
+                <span className="font-semibold text-forest">{site.etransfer}</span>{' '}
                 after submitting. Your booking is confirmed only after payment is received.
               </p>
             </div>

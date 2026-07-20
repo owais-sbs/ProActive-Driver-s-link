@@ -23,7 +23,7 @@ export function PageHero({
 }) {
   if (!image) {
     return (
-      <section className={cn('bg-cream pt-32 pb-16 lg:pt-40 lg:pb-20', className)}>
+      <section className={cn('bg-cream pt-24 pb-10 sm:pt-28 sm:pb-14 lg:pt-36 lg:pb-20', className)}>
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           {eyebrow && (
             <RevealText from="left">
@@ -31,7 +31,7 @@ export function PageHero({
             </RevealText>
           )}
           <RevealText from="left" delay={0.08}>
-            <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+            <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink sm:mt-3 sm:text-5xl">
               {title}
               {titleAccent && (
                 <>
@@ -43,7 +43,7 @@ export function PageHero({
           </RevealText>
           {subtitle && (
             <RevealText from="right" delay={0.14}>
-              <p className="mx-auto mt-5 max-w-2xl text-lg text-ink/65">{subtitle}</p>
+              <p className="mx-auto mt-3 max-w-2xl text-base text-ink/65 sm:mt-5 sm:text-lg">{subtitle}</p>
             </RevealText>
           )}
         </div>
@@ -59,8 +59,8 @@ export function PageHero({
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F0C]/70 via-[#0B0F0C]/85 to-[#0B0F0C]" />
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl lg:min-h-[480px] lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-4 pb-14 pt-28 sm:px-6 lg:px-8 lg:pb-20 lg:pt-32">
+      <div className="relative mx-auto grid max-w-7xl lg:min-h-[440px] lg:grid-cols-2">
+        <div className="flex flex-col justify-center px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
           <div className="max-w-xl">
             {eyebrow && (
               <RevealText from="left">
@@ -70,7 +70,7 @@ export function PageHero({
               </RevealText>
             )}
             <RevealText from="left" delay={0.08}>
-              <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+              <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-white sm:mt-3 sm:text-5xl">
                 {title}
                 {titleAccent && (
                   <>
@@ -82,13 +82,13 @@ export function PageHero({
             </RevealText>
             {subtitle && (
               <RevealText from="right" delay={0.14}>
-                <p className="mt-5 text-lg text-white/70">{subtitle}</p>
+                <p className="mt-3 text-base text-white/70 sm:mt-5 sm:text-lg">{subtitle}</p>
               </RevealText>
             )}
           </div>
         </div>
 
-        <div className="relative hidden min-h-[480px] lg:block">
+        <div className="relative hidden min-h-[440px] lg:block">
           <img
             src={image}
             alt={imageAlt}

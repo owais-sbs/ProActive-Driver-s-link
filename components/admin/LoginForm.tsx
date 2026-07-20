@@ -32,8 +32,8 @@ export function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-cream px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
         <div className="flex flex-col items-center text-center">
-          <Logo variant="dark" />
-          <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-forest/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest">
+          <Logo variant="dark" size="md" />
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-forest/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest">
             <ShieldCheck className="h-3.5 w-3.5" /> Admin Portal
           </span>
           <h1 className="mt-4 font-display text-2xl font-extrabold text-navy">

@@ -47,8 +47,8 @@ export function Header() {
             : 'border-b border-mist/60 bg-white/95 shadow-sm backdrop-blur-md'
         )}
       >
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-[76px] lg:px-8">
-          <Link href="/" aria-label="Turbo Teach home" className="shrink-0">
+        <div className="mx-auto flex h-[80px] max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 lg:h-[88px] lg:px-8">
+          <Link href="/" aria-label="Turbo Teach home" className="min-w-0 shrink-0">
             <Logo variant="dark" size="md" />
           </Link>
 
