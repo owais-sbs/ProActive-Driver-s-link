@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: 'Turbo Teach',
   tagline: 'Where great drivers are made, not born.',
-  phone: '+1 (416) 555-0199',
-  phoneHref: 'tel:+14165550199',
-  whatsapp: 'https://wa.me/14165550199',
+  phone: '416-881-4079',
+  phoneHref: 'tel:+14168814079',
+  whatsapp: 'https://wa.me/14168814079',
   whatsappLabel: 'WhatsApp Now',
   email: 'info@turboteach.ca',
   emailHref: 'mailto:info@turboteach.ca',

@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { defaultSiteSettings } from '@/lib/data/settings';
 import { useSaveSiteSettings, useSiteSettings } from '@/lib/queries/useSiteSettings';
+import { showSuccessSwal } from '@/lib/successSwal';
 
 export function AdminSettings() {
   const { data, isLoading } = useSiteSettings();
@@ -24,6 +25,7 @@ export function AdminSettings() {
       onSuccess: () => {
         setSaved(true);
         window.setTimeout(() => setSaved(false), 2500);
+        void showSuccessSwal({ text: 'Submitted successfully' });
       },
     });
   };

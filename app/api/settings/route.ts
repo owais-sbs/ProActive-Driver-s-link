@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminClient } from '@/lib/adminClient';
+import { serverErrorResponse } from '@/lib/apiError';
 import { defaultSiteSettings } from '@/lib/data/settings';
 import type { SiteSettings } from '@/types/settings';
 
@@ -9,7 +10,11 @@ export async function GET() {
     const { data, error } = await supabase.from('site_settings').select('*').limit(1).maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to load settings' }, { status: 500 });
+      console.error('GET /api/settings', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to load settings', code: error.code },
+        { status: 500 }
+      );
     }
 
     const settings: SiteSettings = data
@@ -25,8 +30,8 @@ export async function GET() {
       : defaultSiteSettings;
 
     return NextResponse.json({ settings });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('GET /api/settings', err);
   }
 }
 
@@ -54,7 +59,11 @@ export async function POST(req: Request) {
       : await supabase.from('site_settings').insert(row).select('*').single();
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to save settings' }, { status: 500 });
+      console.error('POST /api/settings', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to save settings', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
@@ -69,7 +78,7 @@ export async function POST(req: Request) {
         hours: data.hours,
       },
     });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('POST /api/settings', err);
   }
 }

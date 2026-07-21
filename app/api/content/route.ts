@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminClient } from '@/lib/adminClient';
+import { serverErrorResponse } from '@/lib/apiError';
 import { defaultSiteContent } from '@/lib/data/content';
 import type { ContentSection, SiteContentMap } from '@/types/content';
 
@@ -29,12 +30,16 @@ export async function GET() {
     const { data, error } = await supabase.from('site_content').select('section, data');
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to load content' }, { status: 500 });
+      console.error('GET /api/content', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to load content', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ content: mergeContent(data ?? []) });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('GET /api/content', err);
   }
 }
 
@@ -59,11 +64,15 @@ export async function POST(req: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to save content' }, { status: 500 });
+      console.error('POST /api/content', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to save content', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true, section: data.section, data: data.data });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('POST /api/content', err);
   }
 }

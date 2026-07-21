@@ -7,6 +7,7 @@ import { Phone, MessageCircle, CalendarCheck, ShieldCheck, Clock, MapPin } from 
 import { Button } from '@/components/ui/button';
 import { useSiteContent } from '@/lib/queries/useContent';
 import { useSiteConfig } from '@/lib/queries/useSiteSettings';
+import { useWhatsAppLink } from '@/lib/hooks/useWhatsAppLink';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
 const trustBadges = [
@@ -21,6 +22,7 @@ export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { data: content } = useSiteContent();
   const site = useSiteConfig();
+  const whatsappHref = useWhatsAppLink();
   const hero = content.hero;
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
@@ -119,7 +121,7 @@ export function Hero() {
               variant="outline"
               className="h-8 rounded-lg border-white/25 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10 hover:text-white"
             >
-              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-3 w-3 text-emerald-400" /> WhatsApp
               </a>
             </Button>
@@ -254,7 +256,7 @@ export function Hero() {
                 variant="outline"
                 className="border-white/25 bg-white/5 text-white hover:bg-white/10 hover:text-white"
               >
-                <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4 text-emerald-400" /> WhatsApp Now
                 </a>
               </Button>

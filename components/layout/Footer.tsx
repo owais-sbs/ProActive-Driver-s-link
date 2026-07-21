@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, Facebook, Instagram, MessageCircle } from 'lucide-
 import { Logo } from './Logo';
 import { siteConfig, navLinks } from '@/lib/data/site';
 import { useSiteConfig } from '@/lib/queries/useSiteSettings';
+import { useWhatsAppLink } from '@/lib/hooks/useWhatsAppLink';
 
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -31,6 +32,7 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export function Footer() {
   const site = useSiteConfig();
+  const whatsappHref = useWhatsAppLink();
   return (
     <footer className="bg-dark text-white/80">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -141,12 +143,12 @@ export function Footer() {
               </li>
             </ul>
             <a
-              href={site.whatsapp}
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#1a1f1c] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#243028]"
             >
-              <MessageCircle className="h-4 w-4" /> {site.whatsappLabel}
+              <MessageCircle className="h-4 w-4 text-[#25D366]" /> {site.whatsappLabel}
             </a>
           </div>
         </div>

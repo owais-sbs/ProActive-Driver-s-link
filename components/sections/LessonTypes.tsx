@@ -44,10 +44,10 @@ export function LessonTypes() {
           </RevealText>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {lessons.map((l, i) => (
             <FadeIn key={l.title} delay={i * 0.07} y={28}>
-              <article className="group flex flex-col">
+              <article className="group flex flex-col lg:origin-center lg:transition-transform lg:duration-500 lg:hover:scale-[1.06] lg:hover:z-10">
                 <div className="relative overflow-hidden rounded-xl">
                   <img
                     src={l.image}

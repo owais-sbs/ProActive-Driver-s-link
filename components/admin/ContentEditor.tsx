@@ -19,6 +19,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { defaultSiteContent } from '@/lib/data/content';
 import { useSaveContentSection, useSiteContent } from '@/lib/queries/useContent';
+import { showSuccessSwal } from '@/lib/successSwal';
 import type { ContentSection } from '@/types/content';
 
 type Feature = { title: string; description: string };
@@ -93,6 +94,7 @@ export function ContentEditor() {
         onSuccess: () => {
           setSavedSection(section);
           window.setTimeout(() => setSavedSection(null), 2500);
+        void showSuccessSwal({ text: 'Submitted successfully' });
         },
       }
     );

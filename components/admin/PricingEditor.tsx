@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { usePricing, useSavePricing } from '@/lib/queries/useBookings';
 import { defaultPricing } from '@/lib/data/pricing';
+import { showSuccessSwal } from '@/lib/successSwal';
 import type { PricingCategory, PricingPackage } from '@/types/pricing';
 import { cn } from '@/lib/utils';
 
@@ -58,10 +59,20 @@ export function PricingEditor() {
     setDraft((prev) => (prev ? { ...prev, ...patch } : prev));
   };
 
-  const persist = (next: PricingPackage[]) => {
+  const persist = (
+    next: PricingPackage[],
+    options?: { successTitle?: string; silent?: boolean }
+  ) => {
     setPackages(next);
     setSaved(false);
-    savePricing.mutate(next, { onSuccess: () => setSaved(true) });
+    savePricing.mutate(next, {
+      onSuccess: () => {
+        setSaved(true);
+        if (!options?.silent) {
+          void showSuccessSwal({ text: 'Submitted successfully' });
+        }
+      },
+    });
   };
 
   const saveDraft = () => {
@@ -87,14 +98,19 @@ export function PricingEditor() {
         ? [...packages, cleaned]
         : packages.map((p, i) => (i === _index ? { ...cleaned, id: p.id } : p));
 
-    persist(next);
+    persist(next, {
+      successTitle: _index === null ? 'Package created!' : 'Package saved!',
+    });
     closeModal();
   };
 
   const remove = (index: number) => {
     const name = packages[index]?.name ?? 'this package';
     if (!window.confirm(`Delete “${name}”?`)) return;
-    persist(packages.filter((_, i) => i !== index));
+    persist(
+      packages.filter((_, i) => i !== index),
+      { silent: true }
+    );
     if (draft?._index === index) closeModal();
   };
 
@@ -106,7 +122,7 @@ export function PricingEditor() {
     ) {
       return;
     }
-    persist(defaultPricing);
+    persist(defaultPricing, { successTitle: 'All 16 lesson cards loaded!' });
   };
 
   if (isLoading) {

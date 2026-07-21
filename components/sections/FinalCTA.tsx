@@ -5,11 +5,13 @@ import { Phone, MessageCircle, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSiteContent } from '@/lib/queries/useContent';
 import { useSiteConfig } from '@/lib/queries/useSiteSettings';
+import { useWhatsAppLink } from '@/lib/hooks/useWhatsAppLink';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
 export function FinalCTA() {
   const { data: content } = useSiteContent();
   const site = useSiteConfig();
+  const whatsappHref = useWhatsAppLink();
   const cta = content.final_cta;
 
   return (
@@ -45,7 +47,7 @@ export function FinalCTA() {
             variant="outline"
             className="border-white/25 text-white hover:bg-white/10 hover:text-white"
           >
-            <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
               <MessageCircle className="h-4 w-4 text-emerald-400" /> WhatsApp Now
             </a>
           </Button>

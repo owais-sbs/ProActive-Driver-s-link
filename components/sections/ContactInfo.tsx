@@ -3,9 +3,11 @@
 import { FadeIn } from '@/components/motion/Reveal';
 import { Phone, Mail, MapPin, MessageCircle, Clock } from 'lucide-react';
 import { useSiteConfig } from '@/lib/queries/useSiteSettings';
+import { useWhatsAppLink } from '@/lib/hooks/useWhatsAppLink';
 
 export function ContactInfo() {
   const site = useSiteConfig();
+  const whatsappHref = useWhatsAppLink();
 
   return (
     <>
@@ -25,7 +27,7 @@ export function ContactInfo() {
         </FadeIn>
         <FadeIn delay={0.08}>
           <a
-            href={site.whatsapp}
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-full flex-col gap-2 rounded-xl border border-mist bg-white p-4 card-hover sm:gap-3 sm:p-6"

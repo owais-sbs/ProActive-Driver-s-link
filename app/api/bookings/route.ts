@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { bookingSchema } from '@/lib/schemas/booking';
 import { adminClient } from '@/lib/adminClient';
+import { serverErrorResponse } from '@/lib/apiError';
 
 export async function GET() {
   try {
@@ -11,17 +12,16 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('GET /api/bookings', error);
+      console.error('GET /api/bookings', { message: error.message, code: error.code });
       return NextResponse.json(
-        { error: 'Failed to load bookings', details: error.message },
+        { error: 'Failed to load bookings', code: error.code },
         { status: 500 }
       );
     }
 
     return NextResponse.json({ bookings: data ?? [] });
   } catch (err) {
-    console.error('GET /api/bookings unexpected', err);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return serverErrorResponse('GET /api/bookings', err);
   }
 }
 
@@ -42,7 +42,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Service role: bypasses RLS so INSERT + SELECT both succeed.
     const supabase = adminClient();
     const { data, error } = await supabase
       .from('bookings')
@@ -62,16 +61,15 @@ export async function POST(req: Request) {
       .single();
 
     if (error) {
-      console.error('POST /api/bookings', error);
+      console.error('POST /api/bookings', { message: error.message, code: error.code });
       return NextResponse.json(
-        { error: 'Failed to create booking', details: error.message },
+        { error: 'Failed to create booking', code: error.code },
         { status: 500 }
       );
     }
 
     return NextResponse.json({ booking: data }, { status: 201 });
   } catch (err) {
-    console.error('POST /api/bookings unexpected', err);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return serverErrorResponse('POST /api/bookings', err);
   }
 }

@@ -14,6 +14,7 @@ import {
 import { bookingSchema, lessonTypes, type BookingFormValues } from '@/lib/schemas/booking';
 import { useCreateBooking } from '@/lib/queries/useBookings';
 import { useSiteConfig } from '@/lib/queries/useSiteSettings';
+import { showSuccessSwal } from '@/lib/successSwal';
 import { RevealText, FadeIn } from '@/components/motion/Reveal';
 
 const fieldClass =
@@ -41,9 +42,14 @@ export function BookingForm() {
   const onSubmit = async (values: BookingFormValues) => {
     setSuccess(false);
     const { confirm: _confirm, ...payload } = values;
-    await createBooking.mutateAsync(payload);
-    setSuccess(true);
-    reset();
+    try {
+      await createBooking.mutateAsync(payload);
+      setSuccess(true);
+      reset();
+      await showSuccessSwal({ text: 'Submitted successfully' });
+    } catch {
+      // Error banner already shown via createBooking.isError
+    }
   };
 
   return (
@@ -95,7 +101,7 @@ export function BookingForm() {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="phone">Phone *</Label>
-                <input id="phone" className={fieldClass} {...register('phone')} placeholder="(416) 555-0199" />
+                <input id="phone" className={fieldClass} {...register('phone')} placeholder="416-881-4079" />
                 {errors.phone && <p className="text-xs text-red-600">{errors.phone.message}</p>}
               </div>
             </div>

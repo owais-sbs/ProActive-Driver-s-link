@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminClient } from '@/lib/adminClient';
+import { serverErrorResponse } from '@/lib/apiError';
 
 const statusSchema = z.object({
   status: z.enum(['Pending', 'Confirmed', 'Paid']),
@@ -33,12 +34,16 @@ export async function PATCH(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+      console.error('PATCH /api/bookings/[id]', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to update booking', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ booking: data });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('PATCH /api/bookings/[id]', err);
   }
 }
 
@@ -51,11 +56,15 @@ export async function DELETE(
     const { error } = await supabase.from('bookings').delete().eq('id', params.id);
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
+      console.error('DELETE /api/bookings/[id]', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to delete booking', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('DELETE /api/bookings/[id]', err);
   }
 }

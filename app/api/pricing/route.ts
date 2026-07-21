@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminClient } from '@/lib/adminClient';
+import { serverErrorResponse } from '@/lib/apiError';
 import { defaultPricing } from '@/lib/data/pricing';
 import type { PricingPackage } from '@/types/pricing';
 
@@ -13,7 +14,11 @@ export async function GET() {
       .order('sort_order', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to load pricing' }, { status: 500 });
+      console.error('GET /api/pricing', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to load pricing', code: error.code },
+        { status: 500 }
+      );
     }
 
     const packages: PricingPackage[] =
@@ -32,8 +37,8 @@ export async function GET() {
         : defaultPricing;
 
     return NextResponse.json({ packages });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('GET /api/pricing', err);
   }
 }
 
@@ -47,7 +52,6 @@ export async function POST(req: Request) {
     const incoming = body.packages as PricingPackage[];
     const supabase = adminClient();
 
-    // Replace all pricing rows with the incoming set.
     await supabase.from('pricing').delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
     const rows = incoming.map((p) => ({
@@ -64,11 +68,15 @@ export async function POST(req: Request) {
     const { error } = await supabase.from('pricing').insert(rows);
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to save pricing' }, { status: 500 });
+      console.error('POST /api/pricing', { message: error.message, code: error.code });
+      return NextResponse.json(
+        { error: 'Failed to save pricing', code: error.code },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } catch (err) {
+    return serverErrorResponse('POST /api/pricing', err);
   }
 }

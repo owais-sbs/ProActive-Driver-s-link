@@ -1,7 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseAnonKey, getSupabaseUrl } from '@/lib/env';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+let browserClient: SupabaseClient | null = null;
 
-/** Browser / anon client (RLS applies). Prefer adminClient() in API routes. */
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+/**
+ * Browser / anon client (RLS applies).
+ * Prefer adminClient() inside API routes.
+ */
+export function getSupabaseBrowserClient(): SupabaseClient {
+  if (browserClient) return browserClient;
+  browserClient = createClient(getSupabaseUrl(), getSupabaseAnonKey());
+  return browserClient;
+}

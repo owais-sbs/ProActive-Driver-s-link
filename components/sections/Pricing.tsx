@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader2, Star } from 'lucide-react';
+import { Loader2, Star, Check } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { usePricing } from '@/lib/queries/useBookings';
@@ -103,6 +103,50 @@ function PackageSection({
   );
 }
 
+function PricingExtras() {
+  const included = [
+    'Pickup and drop-off included',
+    'Training in adverse weather conditions (heavy rain, snow, low visibility)',
+    'Essential defensive driving & safety skills',
+  ];
+
+  return (
+    <div className="mt-12 space-y-5 sm:mt-14">
+      <div className="rounded-[20px] border border-mist/80 bg-white p-5 shadow-sm sm:p-8">
+        <h3 className="text-center font-display text-xl font-extrabold text-ink sm:text-2xl">
+          What&apos;s Included
+        </h3>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3 sm:gap-4">
+          {included.map((item) => (
+            <div
+              key={item}
+              className="flex items-start gap-3 rounded-xl bg-forest px-4 py-4 text-white sm:px-5 sm:py-5"
+            >
+              <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/15">
+                <Check className="h-4 w-4 text-sage" />
+              </span>
+              <p className="text-sm leading-snug text-white/90">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="rounded-[20px] bg-forest px-6 py-10 text-center shadow-sm sm:px-10 sm:py-12">
+        <h3 className="font-display text-2xl font-extrabold text-white sm:text-3xl">
+          Ready to Book Your Driving Lessons?
+        </h3>
+        <Button
+          asChild
+          size="lg"
+          className="mt-6 bg-white px-8 text-forest hover:bg-white/90"
+        >
+          <Link href="/contact">Book Now</Link>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export function Pricing() {
   const { data, isLoading } = usePricing();
   const packages: PricingPackage[] = data && data.length > 0 ? data : defaultPricing;
@@ -146,10 +190,11 @@ export function Pricing() {
             <PackageSection title="G2 Packages" items={g2} />
             <PackageSection title="G Packages" items={g} />
             <PackageSection title="Beginner Driver Education (BDE)" items={bde} />
+            <PricingExtras />
           </div>
         )}
 
-        <p className="mt-10 text-center text-xs text-mist sm:mt-12">
+        <p className="mt-8 text-center text-xs text-mist sm:mt-10">
           Booking confirmed only after e-transfer payment. See the booking form for details.
         </p>
       </div>
