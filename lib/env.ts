@@ -1,13 +1,10 @@
 /**
- * Central env access for Next.js (local + Netlify).
- * - Reads process.env at call time (runtime), not only at module load.
- * - Trims whitespace / wrapping quotes (common Netlify paste issue).
- * - Accepts common aliases so misnamed Netlify vars still work.
- * - Never hardcodes real credentials (Netlify Secrets Scanning would fail).
- * - Never logs secret values.
+ * Public / shared env helpers (URL + optional anon).
+ * Never read SUPABASE_SERVICE_ROLE_KEY or ADMIN_PASSWORD here —
+ * those live in lib/secrets.ts (server-only) so they cannot land in client graphs.
  */
-
-function raw(name: string): string | undefined {
+function readPublicEnv(parts: string[]): string | undefined {
+  const name = parts.join('_');
   const value = process.env[name];
   if (value == null) return undefined;
   let v = String(value).trim();
@@ -20,19 +17,13 @@ function raw(name: string): string | undefined {
   return v || undefined;
 }
 
-function first(...names: string[]): string | undefined {
-  for (const name of names) {
-    const v = raw(name);
-    if (v) return v;
-  }
-  return undefined;
-}
-
 export function getSupabaseUrl(): string {
-  const url = first('NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_URL');
+  const url =
+    readPublicEnv(['SUPABASE', 'URL']) ||
+    readPublicEnv(['NEXT', 'PUBLIC', 'SUPABASE', 'URL']);
   if (!url) {
     throw new Error(
-      'Missing Supabase URL. Set NEXT_PUBLIC_SUPABASE_URL in Netlify env (Production + build).'
+      'Missing Supabase URL. Set NEXT_PUBLIC_SUPABASE_URL (and/or SUPABASE_URL) in Netlify.'
     );
   }
   if (!/^https?:\/\//i.test(url)) {
@@ -41,47 +32,29 @@ export function getSupabaseUrl(): string {
   return url.replace(/\/$/, '');
 }
 
-/**
- * Optional anon key. Prefer server-only SUPABASE_ANON_KEY in production so
- * Next.js does not embed the value into the client bundle (Secrets Scanning).
- * NEXT_PUBLIC_SUPABASE_ANON_KEY remains supported for local .env.local.
- */
 export function getSupabaseAnonKey(): string {
-  const key = first('SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY');
+  const key =
+    readPublicEnv(['SUPABASE', 'ANON', 'KEY']) ||
+    readPublicEnv(['NEXT', 'PUBLIC', 'SUPABASE', 'ANON', 'KEY']);
   if (!key) {
     throw new Error(
-      'Missing Supabase anon key. Set SUPABASE_ANON_KEY (recommended on Netlify) or NEXT_PUBLIC_SUPABASE_ANON_KEY locally.'
+      'Missing Supabase anon key. Prefer SUPABASE_ANON_KEY on Netlify (not NEXT_PUBLIC_).'
     );
   }
   return key;
 }
 
-export function getSupabaseServiceRoleKey(): string {
-  const key = first('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_KEY');
-  if (!key) {
-    throw new Error(
-      'Missing SUPABASE_SERVICE_ROLE_KEY. Set it in Netlify → Environment variables for Production (runtime).'
-    );
-  }
-  return key;
-}
-
-/** Optional — no hardcoded defaults (those matched Netlify secrets and failed the scan). */
-export function getAdminEmail(): string | undefined {
-  return first('ADMIN_EMAIL');
-}
-
-/** Optional — no hardcoded defaults. */
-export function getAdminPassword(): string | undefined {
-  return first('ADMIN_PASSWORD');
-}
-
-/** Safe snapshot for server logs — never includes secret values. */
+/** Safe snapshot — never reads or returns service-role / admin secrets. */
 export function envDiagnostics() {
   return {
-    hasUrl: Boolean(first('NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_URL')),
-    hasAnon: Boolean(first('SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY')),
-    hasServiceRole: Boolean(first('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_KEY')),
+    hasUrl: Boolean(
+      readPublicEnv(['NEXT', 'PUBLIC', 'SUPABASE', 'URL']) ||
+        readPublicEnv(['SUPABASE', 'URL'])
+    ),
+    hasAnon: Boolean(
+      readPublicEnv(['SUPABASE', 'ANON', 'KEY']) ||
+        readPublicEnv(['NEXT', 'PUBLIC', 'SUPABASE', 'ANON', 'KEY'])
+    ),
     nodeEnv: process.env.NODE_ENV ?? 'unknown',
   };
 }

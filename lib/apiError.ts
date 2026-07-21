@@ -1,3 +1,4 @@
+import 'server-only';
 import { NextResponse } from 'next/server';
 import { envDiagnostics } from '@/lib/env';
 
@@ -13,6 +14,7 @@ export function logServerError(scope: string, err: unknown) {
   const message =
     err instanceof Error ? redact(err.message) : redact(String(err ?? 'Unknown error'));
 
+  // Never log process.env or secret values — diagnostics are booleans only.
   console.error(`[${scope}]`, {
     message,
     env: diag,
@@ -21,8 +23,7 @@ export function logServerError(scope: string, err: unknown) {
 }
 
 /**
- * Client-safe error body. Exposes a short code so Netlify logs can be correlated,
- * without leaking credentials.
+ * Client-safe error body. Never includes credentials.
  */
 export function serverErrorResponse(scope: string, err: unknown, status = 500) {
   logServerError(scope, err);
