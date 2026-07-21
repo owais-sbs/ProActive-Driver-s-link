@@ -3,6 +3,7 @@
  * - Reads process.env at call time (runtime), not only at module load.
  * - Trims whitespace / wrapping quotes (common Netlify paste issue).
  * - Accepts common aliases so misnamed Netlify vars still work.
+ * - Never hardcodes real credentials (Netlify Secrets Scanning would fail).
  * - Never logs secret values.
  */
 
@@ -40,11 +41,16 @@ export function getSupabaseUrl(): string {
   return url.replace(/\/$/, '');
 }
 
+/**
+ * Optional anon key. Prefer server-only SUPABASE_ANON_KEY in production so
+ * Next.js does not embed the value into the client bundle (Secrets Scanning).
+ * NEXT_PUBLIC_SUPABASE_ANON_KEY remains supported for local .env.local.
+ */
 export function getSupabaseAnonKey(): string {
-  const key = first('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'SUPABASE_ANON_KEY');
+  const key = first('SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY');
   if (!key) {
     throw new Error(
-      'Missing Supabase anon key. Set NEXT_PUBLIC_SUPABASE_ANON_KEY in Netlify env (Production + build).'
+      'Missing Supabase anon key. Set SUPABASE_ANON_KEY (recommended on Netlify) or NEXT_PUBLIC_SUPABASE_ANON_KEY locally.'
     );
   }
   return key;
@@ -54,25 +60,27 @@ export function getSupabaseServiceRoleKey(): string {
   const key = first('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_KEY');
   if (!key) {
     throw new Error(
-      'Missing SUPABASE_SERVICE_ROLE_KEY. Set it in Netlify → Environment variables for Production (runtime), not only locally in .env.local.'
+      'Missing SUPABASE_SERVICE_ROLE_KEY. Set it in Netlify → Environment variables for Production (runtime).'
     );
   }
   return key;
 }
 
-export function getAdminEmail(): string {
-  return first('ADMIN_EMAIL', 'NEXT_PUBLIC_ADMIN_EMAIL') || 'admin@turboteach.ca';
+/** Optional — no hardcoded defaults (those matched Netlify secrets and failed the scan). */
+export function getAdminEmail(): string | undefined {
+  return first('ADMIN_EMAIL');
 }
 
-export function getAdminPassword(): string {
-  return first('ADMIN_PASSWORD') || 'turboteach-admin';
+/** Optional — no hardcoded defaults. */
+export function getAdminPassword(): string | undefined {
+  return first('ADMIN_PASSWORD');
 }
 
 /** Safe snapshot for server logs — never includes secret values. */
 export function envDiagnostics() {
   return {
     hasUrl: Boolean(first('NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_URL')),
-    hasAnon: Boolean(first('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'SUPABASE_ANON_KEY')),
+    hasAnon: Boolean(first('SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY')),
     hasServiceRole: Boolean(first('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_KEY')),
     nodeEnv: process.env.NODE_ENV ?? 'unknown',
   };

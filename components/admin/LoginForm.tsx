@@ -59,7 +59,7 @@ export function LoginForm() {
                 required
                 autoComplete="email"
                 className="w-full rounded-lg border border-mist bg-white py-2.5 pl-10 pr-3 text-sm text-ink focus:border-forest focus:ring-2 focus:ring-forest/20 focus:outline-none"
-                placeholder="admin@turboteach.ca"
+                placeholder="you@example.com"
               />
             </div>
           </div>

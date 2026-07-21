@@ -13,7 +13,7 @@ type AdminAuth = {
 
 const AdminAuthContext = createContext<AdminAuth | undefined>(undefined);
 
-const STORAGE_KEY = 'turboteach-admin-session';
+const STORAGE_KEY = 'tt-admin-session-v1';
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AdminUser | null>(null);
