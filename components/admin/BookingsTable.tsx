@@ -47,7 +47,7 @@ const columnHelper = createColumnHelper<Booking>();
 const statusStyles: Record<BookingStatus, string> = {
   Pending: 'bg-amber-50 text-amber-800 border-amber-200',
   Confirmed: 'bg-sage/15 text-forest border-sage/40',
-  Paid: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+  Paid: 'bg-sage/15 text-forest border-sage/40',
 };
 
 type ViewMode = 'table' | 'cards';

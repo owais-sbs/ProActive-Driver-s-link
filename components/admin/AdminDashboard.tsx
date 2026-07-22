@@ -30,8 +30,8 @@ import { Button } from '@/components/ui/button';
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   Pending: '#9CA3AF',
-  Confirmed: '#2D5C3E',
-  Paid: '#059669',
+  Confirmed: '#2C4A6E',
+  Paid: '#4A6FA5',
 };
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -102,7 +102,7 @@ export function AdminDashboard() {
     { label: 'Total Leads', value: stats.total, icon: Users, tone: 'bg-forest/10 text-forest' },
     { label: 'Pending', value: stats.pending, icon: Clock, tone: 'bg-amber-50 text-amber-700' },
     { label: 'Confirmed', value: stats.confirmed, icon: CalendarCheck, tone: 'bg-sage/15 text-forest' },
-    { label: 'Paid', value: stats.paid, icon: DollarSign, tone: 'bg-emerald-50 text-emerald-700' },
+    { label: 'Paid', value: stats.paid, icon: DollarSign, tone: 'bg-sage/15 text-forest' },
     {
       label: 'Packages',
       value: stats.packages,
@@ -171,7 +171,7 @@ export function AdminDashboard() {
                       <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} />
                       <YAxis allowDecimals={false} tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} width={28} />
                       <Tooltip
-                        cursor={{ fill: '#F9F9F7' }}
+                        cursor={{ fill: '#F7F8FB' }}
                         contentStyle={{ borderRadius: 12, border: '1px solid #E5E7EB', fontSize: 13 }}
                       />
                       <Bar dataKey="value" radius={[8, 8, 0, 0]}>
@@ -200,10 +200,10 @@ export function AdminDashboard() {
                       <XAxis type="number" allowDecimals={false} tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} />
                       <YAxis type="category" dataKey="name" width={72} tick={{ fontSize: 9, fill: '#6B7280' }} axisLine={false} tickLine={false} />
                       <Tooltip
-                        cursor={{ fill: '#F9F9F7' }}
+                        cursor={{ fill: '#F7F8FB' }}
                         contentStyle={{ borderRadius: 12, border: '1px solid #E5E7EB', fontSize: 13 }}
                       />
-                      <Bar dataKey="value" fill="#1B3A2A" radius={[0, 8, 8, 0]} />
+                      <Bar dataKey="value" fill="#132A4A" radius={[0, 8, 8, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}
@@ -221,12 +221,12 @@ export function AdminDashboard() {
                   <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 10, fill: '#6B7280' }} axisLine={false} tickLine={false} width={28} />
                   <Tooltip
-                    cursor={{ fill: '#F9F9F7' }}
+                    cursor={{ fill: '#F7F8FB' }}
                     contentStyle={{ borderRadius: 12, border: '1px solid #E5E7EB', fontSize: 13 }}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Bar dataKey="leads" name="Leads" fill="#4A8C63" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="paid" name="Paid" fill="#1B3A2A" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="leads" name="Leads" fill="#4A6FA5" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="paid" name="Paid" fill="#132A4A" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

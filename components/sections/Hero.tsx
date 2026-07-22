@@ -29,14 +29,14 @@ export function Hero() {
   const carY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   return (
-    <section ref={ref} className="relative overflow-x-hidden bg-[#F9F9F7]">
+    <section ref={ref} className="relative overflow-x-hidden bg-cream">
       {/* Atmosphere */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(45,92,62,0.4), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(132,204,164,0.14), transparent 50%), linear-gradient(180deg, #070A08 0%, #0F1A12 40%, #F9F9F7 88%, #F9F9F7 100%)',
+            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(19,42,74,0.45), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(74,111,165,0.16), transparent 50%), linear-gradient(180deg, #070B12 0%, #0B1526 40%, #F7F8FB 88%, #F7F8FB 100%)',
         }}
       />
       <div
@@ -57,12 +57,12 @@ export function Hero() {
         className="pointer-events-none absolute -right-8 bottom-0 top-16 hidden w-[55%] max-w-3xl overflow-hidden lg:block"
       >
         <motion.img
-          src="/images/car-hero.png"
+          src="/images/car-hero-blue.png"
           alt=""
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.1, delay: 0.2, ease }}
-          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(132,204,164,0.25)]"
+          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(74,111,165,0.35)]"
         />
       </motion.div>
 
@@ -72,7 +72,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 top-24 h-48 overflow-hidden opacity-35 lg:hidden"
       >
         <img
-          src="/images/car-hero.png"
+          src="/images/car-hero-blue.png"
           alt=""
           className="mx-auto h-full w-full max-w-sm object-contain object-center"
         />

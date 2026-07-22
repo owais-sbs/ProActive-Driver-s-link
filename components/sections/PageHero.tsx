@@ -4,6 +4,8 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { RevealText } from '@/components/motion/Reveal';
 
+const NAVY_DEEP = 'var(--brand-navy-deep)';
+
 export function PageHero({
   eyebrow,
   title,
@@ -52,15 +54,31 @@ export function PageHero({
   }
 
   return (
-    <section className={cn('relative overflow-hidden bg-[#0B0F0C]', className)}>
+    <section className={cn('relative overflow-hidden bg-dark', className)}>
       {/* Mobile image backdrop */}
       <div className="absolute inset-0 lg:hidden">
         <img src={image} alt="" className="h-full w-full object-cover opacity-40" aria-hidden />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F0C]/70 via-[#0B0F0C]/85 to-[#0B0F0C]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-navy-deep)]/70 via-[var(--brand-navy-deep)]/85 to-[var(--brand-navy-deep)]" />
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl lg:min-h-[440px] lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
+      {/* Desktop: full-bleed image on the right, feathered into navy — no hard column edge */}
+      <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
+        <img
+          src={image}
+          alt={imageAlt}
+          className="absolute inset-y-0 right-0 h-full w-[72%] object-cover object-center [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.35)_14%,rgba(0,0,0,0.85)_28%,black_42%,black_100%)]"
+          loading="eager"
+        />
+        <div
+          className="absolute inset-y-0 right-0 w-[74%]"
+          style={{
+            background: `linear-gradient(to right, ${NAVY_DEEP} 0%, ${NAVY_DEEP} 12%, rgba(11,21,38,0.94) 24%, rgba(11,21,38,0.72) 36%, rgba(11,21,38,0.38) 48%, rgba(11,21,38,0.12) 58%, transparent 72%)`,
+          }}
+        />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl lg:min-h-[440px]">
+        <div className="flex flex-col justify-center px-4 pb-10 pt-28 sm:px-6 sm:pb-12 sm:pt-32 lg:max-w-[52%] lg:px-8 lg:pb-16 lg:pt-36">
           <div className="max-w-xl">
             {eyebrow && (
               <RevealText from="left">
@@ -86,19 +104,6 @@ export function PageHero({
               </RevealText>
             )}
           </div>
-        </div>
-
-        <div className="relative hidden min-h-[440px] lg:block">
-          <img
-            src={image}
-            alt={imageAlt}
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="eager"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-r from-[#0B0F0C] via-[#0B0F0C]/30 to-transparent"
-          />
         </div>
       </div>
     </section>

@@ -4,25 +4,36 @@
 
 @layer base {
   :root {
+    /* Bright glossy white surfaces + dark navy accents */
+    --brand-navy: #132A4A;
+    --brand-navy-light: #1E3A5F;
+    --brand-navy-mid: #2C4A6E;
+    --brand-navy-soft: #4A6FA5;
+    --brand-navy-deep: #0B1526;
+    --brand-surface: #FFFFFF;
+    --brand-surface-soft: #F7F8FB;
+    --brand-ink: #111827;
+
     --background: 0 0% 100%;
     --foreground: 218 15% 8%;
     --card: 0 0% 100%;
     --card-foreground: 218 15% 8%;
     --popover: 0 0% 100%;
     --popover-foreground: 218 15% 8%;
-    --primary: 151 41% 18%;
+    /* Dark navy primary (was green) */
+    --primary: 214 59% 18%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 218 15% 96%;
+    --secondary: 220 20% 97%;
     --secondary-foreground: 218 15% 8%;
-    --accent: 151 41% 18%;
+    --accent: 214 45% 30%;
     --accent-foreground: 0 0% 100%;
-    --muted: 218 15% 96%;
+    --muted: 220 20% 97%;
     --muted-foreground: 218 10% 46%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 218 15% 91%;
-    --input: 218 15% 91%;
-    --ring: 151 41% 18%;
+    --border: 220 16% 91%;
+    --input: 220 16% 91%;
+    --ring: 214 59% 18%;
     --radius: 0.5rem;
   }
 }
@@ -34,29 +45,40 @@
     @apply bg-white text-ink antialiased;
     font-feature-settings: "cv02","cv03","cv04","cv11";
     overflow-x: hidden;
+    background-color: var(--brand-surface);
   }
   ::selection {
-    background-color: #C8E6C9;
-    color: #1B3A2A;
+    background-color: #D6E2F0;
+    color: var(--brand-navy);
   }
 }
 
 @layer utilities {
-  /* Brand palette */
-  .text-ink    { color: #111827; }
-  .bg-ink      { background-color: #111827; }
-  .text-forest { color: #1B3A2A; }
-  .bg-forest   { background-color: #1B3A2A; }
-  .text-moss   { color: #2D5C3E; }
-  .bg-moss     { background-color: #2D5C3E; }
-  .text-sage   { color: #4A8C63; }
-  .bg-sage     { background-color: #4A8C63; }
+  /* Brand palette — class names unchanged; colors remapped to navy */
+  .text-ink    { color: var(--brand-ink); }
+  .bg-ink      { background-color: var(--brand-ink); }
+
+  .text-forest { color: var(--brand-navy); }
+  .bg-forest   { background-color: var(--brand-navy); }
+  .bg-forest-light { background-color: var(--brand-navy-light); }
+  .hover\:bg-forest-light:hover { background-color: var(--brand-navy-light); }
+  .text-forest-light { color: var(--brand-navy-light); }
+
+  .text-moss   { color: var(--brand-navy-mid); }
+  .bg-moss     { background-color: var(--brand-navy-mid); }
+
+  .text-sage   { color: var(--brand-navy-soft); }
+  .bg-sage     { background-color: var(--brand-navy-soft); }
+  .bg-sage-light { background-color: #7E9BC4; }
+  .hover\:bg-sage-light:hover { background-color: #7E9BC4; }
+  .text-sage-light { color: #7E9BC4; }
+
   .text-mist   { color: #6B7280; }
   .border-mist { border-color: #E5E7EB; }
 
-  /* Surfaces */
-  .bg-cream   { background-color: #F9F9F7; }
-  .bg-dark    { background-color: #0F1F14; }
+  /* Surfaces — bright glossy white, deep navy for dark bands only */
+  .bg-cream   { background-color: var(--brand-surface-soft); }
+  .bg-dark    { background-color: var(--brand-navy-deep); }
 
   /* Utility */
   .nav-link {
