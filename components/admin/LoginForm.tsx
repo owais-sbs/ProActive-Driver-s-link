@@ -36,7 +36,7 @@ export function LoginForm() {
           <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-forest/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest">
             <ShieldCheck className="h-3.5 w-3.5" /> Admin Portal
           </span>
-          <h1 className="mt-4 font-display text-2xl font-extrabold text-navy">
+          <h1 className="mt-4 font-display text-2xl font-extrabold text-forest">
             Sign in
           </h1>
           <p className="mt-1 text-sm text-slate-500">

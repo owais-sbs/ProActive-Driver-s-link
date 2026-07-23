@@ -30,8 +30,8 @@ import { Button } from '@/components/ui/button';
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   Pending: '#9CA3AF',
-  Confirmed: '#2C4A6E',
-  Paid: '#4A6FA5',
+  Confirmed: '#005A66',
+  Paid: '#007786',
 };
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -203,7 +203,7 @@ export function AdminDashboard() {
                         cursor={{ fill: '#F7F8FB' }}
                         contentStyle={{ borderRadius: 12, border: '1px solid #E5E7EB', fontSize: 13 }}
                       />
-                      <Bar dataKey="value" fill="#132A4A" radius={[0, 8, 8, 0]} />
+                      <Bar dataKey="value" fill="#007786" radius={[0, 8, 8, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}
@@ -225,8 +225,8 @@ export function AdminDashboard() {
                     contentStyle={{ borderRadius: 12, border: '1px solid #E5E7EB', fontSize: 13 }}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Bar dataKey="leads" name="Leads" fill="#4A6FA5" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="paid" name="Paid" fill="#132A4A" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="leads" name="Leads" fill="#33A0AB" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="paid" name="Paid" fill="#007786" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

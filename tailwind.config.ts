@@ -27,11 +27,18 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         ink:    { DEFAULT: '#111827', light: '#374151' },
-        /* Remapped from green → dark navy (class names kept for zero UI rewrites) */
-        forest: { DEFAULT: '#132A4A', light: '#1E3A5F', dark: '#0B1526' },
-        moss:   { DEFAULT: '#2C4A6E', light: '#4A6FA5' },
-        sage:   { DEFAULT: '#4A6FA5', light: '#7E9BC4' },
-        cream:  { DEFAULT: '#F7F8FB', dark: '#EEF1F6' },
+        /* Remapped → Bright Teal #007786 (class names kept for zero UI rewrites) */
+        forest: { DEFAULT: '#007786', light: '#33A0AB', dark: '#003F47' },
+        moss:   { DEFAULT: '#005A66', light: '#33A0AB' },
+        sage:   { DEFAULT: '#33A0AB', light: '#5BB5BE' },
+        cream:  { DEFAULT: '#E6F4F5', dark: '#F8FAFC' },
+        teal: {
+          DEFAULT: '#007786',
+          light: '#33A0AB',
+          soft: '#E6F4F5',
+          dark: '#005A66',
+          deep: '#003F47',
+        },
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',

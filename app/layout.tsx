@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.png?v=teal-new-20260723',
         width: 1200,
         height: 630,
         alt: 'Turbo Teach Driving School',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Turbo Teach Driving School',
     description: 'Pass your G2 & G driving test with confidence.',
-    images: ['/og-image.png'],
+    images: ['/og-image.png?v=teal-new-20260723'],
   },
   icons: {
     icon: '/icon.png',

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-/** dark = navy logo on white/light backgrounds · light = white logo on dark/navy backgrounds */
+/** dark = teal logo on white/light backgrounds · light = white logo on dark/teal backgrounds */
 const LOGO_SRC = {
-  dark: '/images/logo-blue.png',
+  dark: '/images/logo-blue.png?v=2',
   light: '/images/logo-white.png',
 } as const;
 
@@ -16,15 +16,22 @@ export function Logo({
   variant?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg';
 }) {
+  /** Hero (light) = larger like before · White header (dark) = balanced mid size */
   const heights = {
-    sm: 'h-12 sm:h-14',
-    md: 'h-[5.75rem] sm:h-[5.5rem] lg:h-[6rem]',
+    sm: 'h-11 sm:h-12',
+    md:
+      variant === 'light'
+        ? 'h-[5.75rem] sm:h-[6.25rem] lg:h-[6.75rem]'
+        : 'h-[4.5rem] sm:h-[4.75rem] lg:h-[5rem]',
     lg: 'h-20 sm:h-24',
   };
 
   const widths = {
-    sm: 'max-w-[160px] sm:max-w-[200px]',
-    md: 'max-w-[290px] sm:max-w-[310px] md:max-w-[360px]',
+    sm: 'max-w-[160px] sm:max-w-[190px]',
+    md:
+      variant === 'light'
+        ? 'max-w-[320px] sm:max-w-[360px] md:max-w-[420px]'
+        : 'max-w-[240px] sm:max-w-[270px] md:max-w-[300px]',
     lg: 'max-w-[280px] sm:max-w-[340px]',
   };
 
@@ -52,7 +59,7 @@ export function LogoLink({
 }: {
   className?: string;
   variant?: 'dark' | 'light';
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
 }) {
   return (
     <Link href="/" aria-label="Turbo Teach home" className={cn('shrink-0', className)}>

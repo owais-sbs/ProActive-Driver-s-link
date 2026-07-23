@@ -36,7 +36,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(19,42,74,0.45), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(74,111,165,0.16), transparent 50%), linear-gradient(180deg, #070B12 0%, #0B1526 40%, #F7F8FB 88%, #F7F8FB 100%)',
+            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(0,119,134,0.55), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(51,160,171,0.22), transparent 50%), linear-gradient(180deg, #003F47 0%, #007786 38%, #E6F4F5 88%, #E6F4F5 100%)',
         }}
       />
       <div
@@ -62,7 +62,7 @@ export function Hero() {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.1, delay: 0.2, ease }}
-          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(74,111,165,0.35)]"
+          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(0,119,134,0.4)]"
         />
       </motion.div>
 
@@ -110,7 +110,7 @@ export function Hero() {
           <FadeIn delay={0.2} className="mt-6 flex flex-wrap items-center gap-2">
             <Button
               asChild
-              className="h-8 rounded-lg bg-sage px-3 text-xs font-semibold text-ink hover:bg-sage-light"
+              className="h-8 rounded-lg bg-white px-3 text-xs font-semibold text-forest hover:bg-white/90"
             >
               <a href={site.phoneHref}>
                 <Phone className="h-3 w-3" /> Call
@@ -245,7 +245,7 @@ export function Hero() {
               <p className="mt-4 max-w-xl text-base text-white/70">{hero.body}</p>
             </RevealText>
             <FadeIn delay={0.28} className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg" className="bg-sage text-ink hover:bg-sage-light">
+              <Button asChild size="lg" className="bg-white text-forest hover:bg-white/90">
                 <a href={site.phoneHref}>
                   <Phone className="h-4 w-4" /> Call Now
                 </a>

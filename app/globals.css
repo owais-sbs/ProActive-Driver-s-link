@@ -4,37 +4,51 @@
 
 @layer base {
   :root {
-    /* Bright glossy white surfaces + dark navy accents */
-    --brand-navy: #132A4A;
-    --brand-navy-light: #1E3A5F;
-    --brand-navy-mid: #2C4A6E;
-    --brand-navy-soft: #4A6FA5;
-    --brand-navy-deep: #0B1526;
+    /* Bright Teal Blue brand — #007786 */
+    --brand-teal: #007786;
+    --brand-teal-light: #33A0AB;
+    --brand-teal-mid: #005A66;
+    --brand-teal-soft: #5BB5BE;
+    --brand-teal-deep: #003F47;
     --brand-surface: #FFFFFF;
-    --brand-surface-soft: #F7F8FB;
+    --brand-surface-soft: #E6F4F5;
+    --brand-surface-muted: #F8FAFC;
     --brand-ink: #111827;
 
+    /* Aliases kept for existing var(--brand-navy-*) references */
+    --brand-navy: var(--brand-teal);
+    --brand-navy-light: var(--brand-teal-light);
+    --brand-navy-mid: var(--brand-teal-mid);
+    --brand-navy-soft: var(--brand-teal-soft);
+    --brand-navy-deep: var(--brand-teal-deep);
+
     --background: 0 0% 100%;
-    --foreground: 218 15% 8%;
+    --foreground: 215 20% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 218 15% 8%;
+    --card-foreground: 215 20% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 218 15% 8%;
-    /* Dark navy primary (was green) */
-    --primary: 214 59% 18%;
+    --popover-foreground: 215 20% 9%;
+    /* Primary #007786 → hsl(187 100% 26%) */
+    --primary: 187 100% 26%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 20% 97%;
-    --secondary-foreground: 218 15% 8%;
-    --accent: 214 45% 30%;
+    --secondary: 185 33% 94%;
+    --secondary-foreground: 187 100% 20%;
+    --accent: 187 54% 44%;
     --accent-foreground: 0 0% 100%;
-    --muted: 220 20% 97%;
-    --muted-foreground: 218 10% 46%;
+    --muted: 210 40% 98%;
+    --muted-foreground: 215 12% 46%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 16% 91%;
-    --input: 220 16% 91%;
-    --ring: 214 59% 18%;
+    --border: 186 20% 88%;
+    --input: 186 20% 88%;
+    --ring: 187 100% 26%;
     --radius: 0.5rem;
+
+    --chart-1: 187 100% 26%;
+    --chart-2: 187 54% 44%;
+    --chart-3: 187 100% 20%;
+    --chart-4: 185 40% 70%;
+    --chart-5: 187 100% 14%;
   }
 }
 
@@ -48,37 +62,37 @@
     background-color: var(--brand-surface);
   }
   ::selection {
-    background-color: #D6E2F0;
-    color: var(--brand-navy);
+    background-color: #C5E8EB;
+    color: var(--brand-teal-deep);
   }
 }
 
 @layer utilities {
-  /* Brand palette — class names unchanged; colors remapped to navy */
+  /* Brand palette — class names unchanged; colors remapped to Bright Teal */
   .text-ink    { color: var(--brand-ink); }
   .bg-ink      { background-color: var(--brand-ink); }
 
-  .text-forest { color: var(--brand-navy); }
-  .bg-forest   { background-color: var(--brand-navy); }
-  .bg-forest-light { background-color: var(--brand-navy-light); }
-  .hover\:bg-forest-light:hover { background-color: var(--brand-navy-light); }
-  .text-forest-light { color: var(--brand-navy-light); }
+  .text-forest { color: var(--brand-teal); }
+  .bg-forest   { background-color: var(--brand-teal); }
+  .bg-forest-light { background-color: var(--brand-teal-light); }
+  .hover\:bg-forest-light:hover { background-color: var(--brand-teal-light); }
+  .text-forest-light { color: var(--brand-teal-light); }
 
-  .text-moss   { color: var(--brand-navy-mid); }
-  .bg-moss     { background-color: var(--brand-navy-mid); }
+  .text-moss   { color: var(--brand-teal-mid); }
+  .bg-moss     { background-color: var(--brand-teal-mid); }
 
-  .text-sage   { color: var(--brand-navy-soft); }
-  .bg-sage     { background-color: var(--brand-navy-soft); }
-  .bg-sage-light { background-color: #7E9BC4; }
-  .hover\:bg-sage-light:hover { background-color: #7E9BC4; }
-  .text-sage-light { color: #7E9BC4; }
+  .text-sage   { color: #5BB5BE; }
+  .bg-sage     { background-color: #33A0AB; }
+  .bg-sage-light { background-color: #5BB5BE; }
+  .hover\:bg-sage-light:hover { background-color: #5BB5BE; }
+  .text-sage-light { color: #7EC4CB; }
 
   .text-mist   { color: #6B7280; }
-  .border-mist { border-color: #E5E7EB; }
+  .border-mist { border-color: #E2E8F0; }
 
-  /* Surfaces — bright glossy white, deep navy for dark bands only */
+  /* Surfaces — soft teal wash + deep teal for dark bands */
   .bg-cream   { background-color: var(--brand-surface-soft); }
-  .bg-dark    { background-color: var(--brand-navy-deep); }
+  .bg-dark    { background-color: var(--brand-teal-deep); }
 
   /* Utility */
   .nav-link {

@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { RevealText } from '@/components/motion/Reveal';
 
-const NAVY_DEEP = 'var(--brand-navy-deep)';
+const TEAL_PRIMARY = '#007786';
 
 export function PageHero({
   eyebrow,
@@ -54,14 +54,14 @@ export function PageHero({
   }
 
   return (
-    <section className={cn('relative overflow-hidden bg-dark', className)}>
+    <section className={cn('relative overflow-hidden bg-forest', className)}>
       {/* Mobile image backdrop */}
       <div className="absolute inset-0 lg:hidden">
         <img src={image} alt="" className="h-full w-full object-cover opacity-40" aria-hidden />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-navy-deep)]/70 via-[var(--brand-navy-deep)]/85 to-[var(--brand-navy-deep)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-teal)]/75 via-[var(--brand-teal)]/88 to-[var(--brand-teal-deep)]" />
       </div>
 
-      {/* Desktop: full-bleed image on the right, feathered into navy — no hard column edge */}
+      {/* Desktop: full-bleed image on the right, feathered into teal — no hard column edge */}
       <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
         <img
           src={image}
@@ -72,7 +72,7 @@ export function PageHero({
         <div
           className="absolute inset-y-0 right-0 w-[74%]"
           style={{
-            background: `linear-gradient(to right, ${NAVY_DEEP} 0%, ${NAVY_DEEP} 12%, rgba(11,21,38,0.94) 24%, rgba(11,21,38,0.72) 36%, rgba(11,21,38,0.38) 48%, rgba(11,21,38,0.12) 58%, transparent 72%)`,
+            background: `linear-gradient(to right, ${TEAL_PRIMARY} 0%, ${TEAL_PRIMARY} 12%, rgba(0,119,134,0.94) 24%, rgba(0,119,134,0.72) 36%, rgba(0,119,134,0.38) 48%, rgba(0,119,134,0.12) 58%, transparent 72%)`,
           }}
         />
       </div>
