@@ -23,7 +23,7 @@ export const siteConfig = {
   ],
   social: {
     facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
+    instagram: 'https://www.instagram.com/turboteachdriving/',
     google: 'https://google.com',
   },
 };
