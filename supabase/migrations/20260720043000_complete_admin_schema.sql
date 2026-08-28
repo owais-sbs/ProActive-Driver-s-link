@@ -1,5 +1,5 @@
 /*
-  Turbo Teach — complete Supabase schema for admin + public site
+  ProActive Driver's Link Canada — complete Supabase schema for admin + public site
 
   Covers:
   - Leads      → bookings
@@ -221,8 +221,8 @@ INSERT INTO public.site_content (section, data) VALUES
   'why',
   '{
     "title": "Why Choose",
-    "titleAccent": "Turbo Teach?",
-    "subtitle": "Turbo Teach provides private G2 & G driving lessons across GTA with a focus on confidence, safety, and test success.",
+    "titleAccent": "ProActive Driver's Link?",
+    "subtitle": "ProActive Driver's Link Canada provides private G2 & G driving lessons across GTA with a focus on confidence, safety, and test success.",
     "features": [
       {"title": "Road Test Preparation", "description": "Expert guidance to help you ace your G2 and G road tests."},
       {"title": "One-on-One Lessons", "description": "Personalized instruction tailored to your learning pace."},

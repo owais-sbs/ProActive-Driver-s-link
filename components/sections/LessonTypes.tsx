@@ -55,7 +55,7 @@ export function LessonTypes() {
                     className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-ink/55" />
                   <span className="absolute bottom-3 left-3 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-forest shadow-sm">
                     <l.icon className="h-5 w-5" />
                   </span>

@@ -1,53 +1,56 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { siteConfig } from '@/lib/data/site';
 
-/** dark = teal logo on white/light backgrounds · light = white logo on dark/teal backgrounds */
+/** dark = teal on light backgrounds · light = white on dark/teal backgrounds */
 const LOGO_SRC = {
-  dark: '/images/logo-blue.png?v=2',
-  light: '/images/logo-white.png',
+  dark: {
+    full: '/images/logo-blue.png?v=pdlc-20260827',
+    mark: '/images/logo-mark-blue.png?v=pdlc-20260827',
+  },
+  light: {
+    full: '/images/logo-white.png?v=pdlc-20260827',
+    mark: '/images/logo-mark-white.png?v=pdlc-20260827',
+  },
+} as const;
+
+/** Same height for mark + wordmark; mobile uses the compact P, sm+ uses the full lockup. */
+const SIZE = {
+  sm: 'h-8 sm:h-9 sm:max-w-[200px]',
+  md: 'h-9 sm:h-10 sm:max-w-[220px] lg:max-w-[240px]',
+  lg: 'h-10 sm:h-11 sm:max-w-[240px] lg:max-w-[260px]',
 } as const;
 
 export function Logo({
   className,
   variant = 'dark',
   size = 'md',
+  lockup = 'auto',
 }: {
   className?: string;
   variant?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg';
+  /** auto = P-mark on mobile, full wordmark from sm up */
+  lockup?: 'auto' | 'full' | 'mark';
 }) {
-  /** Hero (light) = larger like before · White header (dark) = balanced mid size */
-  const heights = {
-    sm: 'h-11 sm:h-12',
-    md:
-      variant === 'light'
-        ? 'h-[5.75rem] sm:h-[6.25rem] lg:h-[6.75rem]'
-        : 'h-[4.5rem] sm:h-[4.75rem] lg:h-[5rem]',
-    lg: 'h-20 sm:h-24',
-  };
+  const src = LOGO_SRC[variant];
+  const frame = cn('w-auto object-contain object-left', SIZE[size]);
 
-  const widths = {
-    sm: 'max-w-[160px] sm:max-w-[190px]',
-    md:
-      variant === 'light'
-        ? 'max-w-[320px] sm:max-w-[360px] md:max-w-[420px]'
-        : 'max-w-[240px] sm:max-w-[270px] md:max-w-[300px]',
-    lg: 'max-w-[280px] sm:max-w-[340px]',
-  };
+  const img = (srcUrl: string) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={srcUrl} alt={siteConfig.fullName} className={frame} draggable={false} />
+  );
 
   return (
-    <span className={cn('inline-flex items-center', className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={LOGO_SRC[variant]}
-        alt="Turbo Teach Driving School"
-        className={cn(
-          'w-auto object-contain object-left',
-          heights[size],
-          widths[size]
-        )}
-        draggable={false}
-      />
+    <span className={cn('inline-flex shrink-0 items-center', className)}>
+      {lockup === 'auto' ? (
+        <picture>
+          <source media="(min-width: 640px)" srcSet={src.full} />
+          {img(src.mark)}
+        </picture>
+      ) : (
+        img(lockup === 'mark' ? src.mark : src.full)
+      )}
     </span>
   );
 }
@@ -56,14 +59,16 @@ export function LogoLink({
   className,
   variant = 'dark',
   size = 'md',
+  lockup = 'auto',
 }: {
   className?: string;
   variant?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg';
+  lockup?: 'auto' | 'full' | 'mark';
 }) {
   return (
-    <Link href="/" aria-label="Turbo Teach home" className={cn('shrink-0', className)}>
-      <Logo variant={variant} size={size} />
+    <Link href="/" aria-label={`${siteConfig.name} home`} className={cn('shrink-0', className)}>
+      <Logo variant={variant} size={size} lockup={lockup} />
     </Link>
   );
 }

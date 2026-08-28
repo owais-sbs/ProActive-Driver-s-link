@@ -32,7 +32,7 @@ export function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-cream px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
         <div className="flex flex-col items-center text-center">
-          <Logo variant="dark" size="md" />
+          <Logo variant="dark" size="sm" lockup="full" />
           <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-forest/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-forest">
             <ShieldCheck className="h-3.5 w-3.5" /> Admin Portal
           </span>

@@ -1,5 +1,6 @@
 export const siteConfig = {
-  name: 'Turbo Teach',
+  name: "ProActive Driver's Link",
+  fullName: "ProActive Driver's Link Canada",
   tagline: 'Where great drivers are made, not born.',
   phone: '416-881-4079',
   phoneHref: 'tel:+14168814079',

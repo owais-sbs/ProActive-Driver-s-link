@@ -22,7 +22,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
         role="dialog" aria-modal="true" aria-label="Site menu"
       >
         <div className="flex items-center justify-between gap-3">
-          <Logo variant="dark" size="md" />
+          <Logo variant="dark" size="sm" />
           <button type="button" onClick={onClose} aria-label="Close menu" className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-ink transition-colors hover:bg-cream">
             <X className="h-5 w-5" />
           </button>

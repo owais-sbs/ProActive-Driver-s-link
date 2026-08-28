@@ -112,7 +112,7 @@ export function WhyChooseUs() {
       why.media.map((src, i) => ({
         type: isVideoUrl(src) ? 'video' : 'image',
         src,
-        alt: `Why choose Turbo Teach media ${i + 1}`,
+        alt: `Why choose ProActive Driver's Link media ${i + 1}`,
       })),
     [why.media]
   );

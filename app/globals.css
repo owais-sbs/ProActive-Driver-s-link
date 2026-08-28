@@ -4,14 +4,15 @@
 
 @layer base {
   :root {
-    /* Bright Teal Blue brand — #007786 */
-    --brand-teal: #007786;
-    --brand-teal-light: #33A0AB;
-    --brand-teal-mid: #005A66;
-    --brand-teal-soft: #5BB5BE;
-    --brand-teal-deep: #003F47;
+    /* ProActive Drivers Link Canada — solid palette from the logo */
+    --brand-teal: #006078;
+    --brand-teal-light: #1A8499;
+    --brand-teal-mid: #004C5C;
+    --brand-teal-soft: #4FA3B5;
+    --brand-teal-deep: #003C48;
+    --brand-maple: #D83030;
     --brand-surface: #FFFFFF;
-    --brand-surface-soft: #E6F4F5;
+    --brand-surface-soft: #E7F3F6;
     --brand-surface-muted: #F8FAFC;
     --brand-ink: #111827;
 
@@ -28,27 +29,27 @@
     --card-foreground: 215 20% 9%;
     --popover: 0 0% 100%;
     --popover-foreground: 215 20% 9%;
-    /* Primary #007786 → hsl(187 100% 26%) */
-    --primary: 187 100% 26%;
+    /* Primary #006078 → hsl(192 100% 24%) */
+    --primary: 192 100% 24%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 185 33% 94%;
-    --secondary-foreground: 187 100% 20%;
-    --accent: 187 54% 44%;
+    --secondary: 190 33% 94%;
+    --secondary-foreground: 192 100% 18%;
+    --accent: 192 54% 40%;
     --accent-foreground: 0 0% 100%;
     --muted: 210 40% 98%;
     --muted-foreground: 215 12% 46%;
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 52%;
     --destructive-foreground: 0 0% 98%;
-    --border: 186 20% 88%;
-    --input: 186 20% 88%;
-    --ring: 187 100% 26%;
+    --border: 192 20% 88%;
+    --input: 192 20% 88%;
+    --ring: 192 100% 24%;
     --radius: 0.5rem;
 
-    --chart-1: 187 100% 26%;
-    --chart-2: 187 54% 44%;
-    --chart-3: 187 100% 20%;
-    --chart-4: 185 40% 70%;
-    --chart-5: 187 100% 14%;
+    --chart-1: 192 100% 24%;
+    --chart-2: 192 54% 40%;
+    --chart-3: 192 100% 18%;
+    --chart-4: 190 40% 70%;
+    --chart-5: 192 100% 14%;
   }
 }
 
@@ -56,19 +57,18 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-white text-ink antialiased;
-    font-feature-settings: "cv02","cv03","cv04","cv11";
-    overflow-x: hidden;
+    @apply bg-white text-ink antialiased overflow-x-hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     background-color: var(--brand-surface);
   }
   ::selection {
-    background-color: #C5E8EB;
+    background-color: #C5E4EA;
     color: var(--brand-teal-deep);
   }
 }
 
 @layer utilities {
-  /* Brand palette — class names unchanged; colors remapped to Bright Teal */
+  /* Brand palette — class names unchanged; colors remapped to logo teal */
   .text-ink    { color: var(--brand-ink); }
   .bg-ink      { background-color: var(--brand-ink); }
 
@@ -81,18 +81,19 @@
   .text-moss   { color: var(--brand-teal-mid); }
   .bg-moss     { background-color: var(--brand-teal-mid); }
 
-  .text-sage   { color: #5BB5BE; }
-  .bg-sage     { background-color: #33A0AB; }
-  .bg-sage-light { background-color: #5BB5BE; }
-  .hover\:bg-sage-light:hover { background-color: #5BB5BE; }
-  .text-sage-light { color: #7EC4CB; }
+  .text-sage   { color: var(--brand-teal-soft); }
+  .bg-sage     { background-color: var(--brand-teal-light); }
+  .bg-sage-light { background-color: var(--brand-teal-soft); }
+  .hover\:bg-sage-light:hover { background-color: var(--brand-teal-soft); }
+  .text-sage-light { color: #7EB9C6; }
 
   .text-mist   { color: #6B7280; }
   .border-mist { border-color: #E2E8F0; }
 
-  /* Surfaces — soft teal wash + deep teal for dark bands */
   .bg-cream   { background-color: var(--brand-surface-soft); }
   .bg-dark    { background-color: var(--brand-teal-deep); }
+  .bg-maple   { background-color: var(--brand-maple); }
+  .text-maple { color: var(--brand-maple); }
 
   /* Utility */
   .nav-link {

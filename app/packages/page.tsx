@@ -4,7 +4,7 @@ import { Pricing } from '@/components/sections/Pricing';
 import { FinalCTA } from '@/components/sections/FinalCTA';
 
 export const metadata = {
-  title: 'Packages | Turbo Teach Driving School',
+  title: "Packages | ProActive Driver's Link Canada",
   description:
     'Transparent G2 and G driving lesson packages with pick-up & drop-off, all-weather training, and defensive driving skills.',
 };

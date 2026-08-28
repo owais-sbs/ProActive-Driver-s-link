@@ -35,12 +35,13 @@ export function Footer() {
   const whatsappHref = useWhatsAppLink();
   return (
     <footer className="bg-dark text-white/80">
+      <div className="h-[3px] bg-maple" />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid gap-10 sm:gap-12 lg:grid-cols-4">
           {/* Brand */}
           <div className="text-center sm:text-left">
             <div className="flex justify-center sm:justify-start">
-              <Logo variant="light" size="md" />
+              <Logo variant="light" size="sm" />
             </div>
             <p className="mx-auto mt-4 max-w-xs text-sm text-white/60 sm:mx-0">
               {site.tagline} Private, MTO-approved driving lessons across the Greater Toronto
@@ -155,7 +156,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-center text-xs text-white/50 sm:mt-12 sm:flex-row sm:text-left">
           <p>
-            © {new Date().getFullYear()} {site.name} Driving School. All rights reserved.
+            © {new Date().getFullYear()} {site.fullName}. All rights reserved.
           </p>
           <p className="flex flex-wrap items-center justify-center gap-2">
             <Link href="/admin" className="hover:text-white">

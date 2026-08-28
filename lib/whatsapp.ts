@@ -15,7 +15,7 @@ export function getPageLabel(pathname: string): string {
 }
 
 export function buildWhatsAppUrl(pageLabel: string, pageUrl: string): string {
-  const text = `Hello Turbo Teach,\nI would like to know more information about ${pageLabel}. Here's the URL: ${pageUrl}`;
+  const text = `Hello ProActive Driver's Link,\nI would like to know more information about ${pageLabel}. Here's the URL: ${pageUrl}`;
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
 }
 

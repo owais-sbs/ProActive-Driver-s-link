@@ -29,27 +29,7 @@ export function Hero() {
   const carY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   return (
-    <section ref={ref} className="relative overflow-x-hidden bg-cream">
-      {/* Atmosphere */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(0,119,134,0.55), transparent 55%), radial-gradient(ellipse 60% 45% at 15% 75%, rgba(51,160,171,0.22), transparent 50%), linear-gradient(180deg, #003F47 0%, #007786 38%, #E6F4F5 88%, #E6F4F5 100%)',
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-          maskImage: 'linear-gradient(180deg, black 0%, transparent 80%)',
-        }}
-      />
-
+    <section ref={ref} className="relative overflow-x-hidden bg-forest">
       {/* Car — desktop */}
       <motion.div
         style={{ y: carY }}
@@ -62,7 +42,7 @@ export function Hero() {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.1, delay: 0.2, ease }}
-          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(0,119,134,0.4)]"
+          className="h-full w-full object-contain object-right opacity-90 drop-shadow-[0_0_40px_rgba(0,96,120,0.4)]"
         />
       </motion.div>
 
@@ -77,11 +57,6 @@ export function Hero() {
           className="mx-auto h-full w-full max-w-sm object-contain object-center"
         />
       </div>
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-1/3 hidden h-72 w-72 rounded-full bg-sage/20 blur-3xl lg:block lg:right-24"
-      />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ——— Mobile first screen: text + small btns only ——— */}
@@ -169,7 +144,7 @@ export function Hero() {
                 playsInline
                 aria-label="Driving lesson in progress"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-forest/25 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-forest/20" />
             </div>
             <div className="absolute -bottom-3 right-3 rounded-xl border border-white/10 bg-white/95 p-2.5 shadow-lg backdrop-blur">
               <div className="flex items-center gap-2">
@@ -206,7 +181,7 @@ export function Hero() {
                 playsInline
                 aria-label="Driving lesson in progress"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-forest/25 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-forest/20" />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

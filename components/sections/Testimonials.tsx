@@ -46,7 +46,7 @@ export function Testimonials() {
             </RevealText>
             <RevealText from="right" delay={0.14}>
               <p className="mt-3 max-w-lg text-sm text-ink/65 sm:mt-4 sm:text-base">
-                Real reviews from real students who passed their road tests with Turbo Teach.
+                Real reviews from real students who passed their road tests with ProActive Driver's Link.
               </p>
             </RevealText>
           </div>
@@ -58,7 +58,7 @@ export function Testimonials() {
                 className="aspect-[16/10] w-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest/40 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-forest/50" />
             </div>
           </FadeIn>
         </div>

@@ -270,7 +270,7 @@ function AdminPriceCard({
     >
       <span
         aria-hidden
-        className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-forest via-sage to-moss"
+        className="absolute inset-x-0 top-0 h-[3px] bg-forest"
       />
 
       <div className="absolute right-2 top-3 z-10 flex gap-1">
@@ -349,7 +349,7 @@ function PackageModal({
             </DialogHeader>
 
             <div className="mb-5 overflow-hidden rounded-[20px] border border-mist bg-white p-5 shadow-sm">
-              <span className="mb-3 block h-[3px] w-full rounded-full bg-gradient-to-r from-forest via-sage to-moss" />
+              <span className="mb-3 block h-[3px] w-full rounded-full bg-forest" />
               <p className="text-sm font-semibold text-ink/85">
                 {draft.name || 'Package title'}
               </p>

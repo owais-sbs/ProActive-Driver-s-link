@@ -98,7 +98,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         >
           {!collapsed && (
             <Link href="/" className="min-w-0 flex-1 overflow-hidden">
-              <Logo variant="dark" size="md" />
+              <Logo variant="dark" size="sm" />
             </Link>
           )}
           <button
@@ -154,7 +154,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           />
           <aside className="absolute inset-y-0 left-0 flex w-[min(100%,18rem)] flex-col bg-white shadow-xl">
             <div className="flex h-[84px] items-center justify-between border-b border-slate-100 px-3">
-              <Logo variant="dark" size="md" />
+              <Logo variant="dark" size="sm" />
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -205,7 +205,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Menu className="h-5 w-5" />
             </button>
             <div className="min-w-0 lg:hidden">
-              <Logo variant="dark" size="md" />
+              <Logo variant="dark" size="sm" />
             </div>
             <p className="hidden truncate text-sm text-ink/60 lg:block">
               Signed in as <span className="font-semibold text-ink">{user.email}</span>

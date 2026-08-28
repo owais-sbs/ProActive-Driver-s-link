@@ -27,17 +27,18 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         ink:    { DEFAULT: '#111827', light: '#374151' },
-        /* Remapped → Bright Teal #007786 (class names kept for zero UI rewrites) */
-        forest: { DEFAULT: '#007786', light: '#33A0AB', dark: '#003F47' },
-        moss:   { DEFAULT: '#005A66', light: '#33A0AB' },
-        sage:   { DEFAULT: '#33A0AB', light: '#5BB5BE' },
-        cream:  { DEFAULT: '#E6F4F5', dark: '#F8FAFC' },
+        /* Solid logo palette — teal #006078 + maple #D83030 */
+        forest: { DEFAULT: '#006078', light: '#1A8499', dark: '#003C48' },
+        moss:   { DEFAULT: '#004C5C', light: '#1A8499' },
+        sage:   { DEFAULT: '#1A8499', light: '#4FA3B5' },
+        cream:  { DEFAULT: '#E7F3F6', dark: '#F8FAFC' },
+        maple:  { DEFAULT: '#D83030' },
         teal: {
-          DEFAULT: '#007786',
-          light: '#33A0AB',
-          soft: '#E6F4F5',
-          dark: '#005A66',
-          deep: '#003F47',
+          DEFAULT: '#006078',
+          light: '#1A8499',
+          soft: '#E7F3F6',
+          dark: '#004C5C',
+          deep: '#003C48',
         },
         chart: {
           '1': 'hsl(var(--chart-1))',

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { GraduationCap, Route, RefreshCw, BookOpen, Check, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Services | Turbo Teach Driving School',
+  title: "Services | ProActive Driver's Link Canada",
   description: 'G2 preparation, G road test preparation, refresher lessons, and the MTO-approved 20-hour BDE course in Toronto / GTA.',
 };
 

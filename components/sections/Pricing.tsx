@@ -33,7 +33,7 @@ function PriceCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
         {/* Brand accent bar (reference-style top edge) */}
         <span
           aria-hidden
-          className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-forest via-sage to-moss"
+          className="absolute inset-x-0 top-0 h-[3px] bg-forest"
         />
 
         {badge && (

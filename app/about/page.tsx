@@ -4,8 +4,8 @@ import { FadeIn } from '@/components/motion/Reveal';
 import { ShieldCheck, HeartHandshake, Trophy, Users, Car, Clock } from 'lucide-react';
 
 export const metadata = {
-  title: 'About Us | Turbo Teach Driving School',
-  description: 'Turbo Teach is a Toronto/GTA driving school built on patience, flexibility, and a high first-try pass rate.',
+  title: "About Us | ProActive Driver's Link Canada",
+  description: "ProActive Driver's Link Canada is a Toronto/GTA driving school built on patience, flexibility, and a high first-try pass rate.",
 };
 
 const stats = [
@@ -22,7 +22,7 @@ export default function AboutPage() {
         eyebrow="About Us"
         title="Where great drivers are made,"
         titleAccent="not born"
-        subtitle="Turbo Teach is a Toronto/GTA driving school dedicated to patient, flexible, and multilingual instruction that helps every student pass with confidence."
+        subtitle="ProActive Driver's Link Canada is a Toronto/GTA driving school dedicated to patient, flexible, and multilingual instruction that helps every student pass with confidence."
         image="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=80"
         imageAlt="Student learning to drive with instructor"
       />
@@ -33,7 +33,7 @@ export default function AboutPage() {
             <FadeIn>
               <h2 className="font-display text-3xl font-extrabold text-ink">Our story</h2>
               <div className="mt-5 space-y-4 text-ink/65">
-                <p>Turbo Teach was founded with one goal: to make every new driver in the Greater Toronto Area a safe, confident, and responsible driver for life — not just for test day.</p>
+                <p>ProActive Driver's Link Canada was founded with one goal: to make every new driver in the Greater Toronto Area a safe, confident, and responsible driver for life — not just for test day.</p>
                 <p>We believe great drivers are made, not born. That’s why our lessons are always one-on-one, our instructors are patient and friendly, and our scheduling is built around your life — evenings, weekends, and complimentary pick-up &amp; drop-off across the GTA.</p>
                 <p>As an MTO-approved Beginner Driver Education provider, our graduates earn a certificate that can lower insurance premiums and shorten the wait between G2 and G tests.</p>
               </div>

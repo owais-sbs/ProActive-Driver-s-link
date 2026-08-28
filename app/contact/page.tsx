@@ -4,7 +4,7 @@ import { BookingForm } from '@/components/sections/BookingForm';
 import { ContactInfo } from '@/components/sections/ContactInfo';
 
 export const metadata = {
-  title: 'Contact Us | Turbo Teach Driving School',
+  title: "Contact Us | ProActive Driver's Link Canada",
   description:
     'Book a driving lesson in Toronto / GTA. Submit the booking form first — we’ll confirm your lesson and send payment instructions.',
 };

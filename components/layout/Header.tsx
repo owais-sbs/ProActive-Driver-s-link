@@ -50,10 +50,10 @@ export function Header() {
         <div
           className={cn(
             'mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8',
-            transparent ? 'h-[112px] lg:h-[104px]' : 'h-[88px] lg:h-[84px]'
+            transparent ? 'h-16 sm:h-[68px]' : 'h-14 sm:h-16'
           )}
         >
-          <Link href="/" aria-label="Turbo Teach home" className="min-w-0 shrink-0">
+          <Link href="/" aria-label={`${site.name} home`} className="min-w-0 shrink-0">
             <Logo variant={transparent ? 'light' : 'dark'} size="md" />
           </Link>
 

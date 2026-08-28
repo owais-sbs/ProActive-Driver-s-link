@@ -16,10 +16,7 @@ export function FinalCTA() {
 
   return (
     <section className="relative overflow-hidden bg-forest py-12 text-white lg:py-16">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-16 top-0 h-72 w-72 rounded-full bg-sage/35 blur-3xl" />
-        <div className="absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-teal-deep/40 blur-3xl" />
-      </div>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-maple" />
 
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <RevealText from="left">

@@ -3,8 +3,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { RevealText } from '@/components/motion/Reveal';
-
-const TEAL_PRIMARY = '#007786';
+import { siteConfig } from '@/lib/data/site';
 
 export function PageHero({
   eyebrow,
@@ -12,7 +11,7 @@ export function PageHero({
   titleAccent,
   subtitle,
   image,
-  imageAlt = 'Turbo Teach Driving School',
+  imageAlt = siteConfig.fullName,
   className,
 }: {
   eyebrow?: string;
@@ -55,30 +54,22 @@ export function PageHero({
 
   return (
     <section className={cn('relative overflow-hidden bg-forest', className)}>
-      {/* Mobile image backdrop */}
       <div className="absolute inset-0 lg:hidden">
         <img src={image} alt="" className="h-full w-full object-cover opacity-40" aria-hidden />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-teal)]/75 via-[var(--brand-teal)]/88 to-[var(--brand-teal-deep)]" />
+        <div className="absolute inset-0 bg-forest/90" />
       </div>
 
-      {/* Desktop: full-bleed image on the right, feathered into teal — no hard column edge */}
       <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
         <img
           src={image}
           alt={imageAlt}
-          className="absolute inset-y-0 right-0 h-full w-[72%] object-cover object-center [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.35)_14%,rgba(0,0,0,0.85)_28%,black_42%,black_100%)]"
+          className="absolute inset-y-0 right-0 h-full w-1/2 object-cover object-center"
           loading="eager"
-        />
-        <div
-          className="absolute inset-y-0 right-0 w-[74%]"
-          style={{
-            background: `linear-gradient(to right, ${TEAL_PRIMARY} 0%, ${TEAL_PRIMARY} 12%, rgba(0,119,134,0.94) 24%, rgba(0,119,134,0.72) 36%, rgba(0,119,134,0.38) 48%, rgba(0,119,134,0.12) 58%, transparent 72%)`,
-          }}
         />
       </div>
 
       <div className="relative mx-auto max-w-7xl lg:min-h-[440px]">
-        <div className="flex flex-col justify-center px-4 pb-10 pt-28 sm:px-6 sm:pb-12 sm:pt-32 lg:max-w-[52%] lg:px-8 lg:pb-16 lg:pt-36">
+        <div className="flex flex-col justify-center px-4 pb-10 pt-28 sm:px-6 sm:pb-12 sm:pt-32 lg:max-w-[50%] lg:px-8 lg:pb-16 lg:pt-36">
           <div className="max-w-xl">
             {eyebrow && (
               <RevealText from="left">
