@@ -6,8 +6,8 @@ export const siteConfig = {
   phoneHref: 'tel:+14168814079',
   whatsapp: 'https://wa.me/14168814079',
   whatsappLabel: 'WhatsApp Now',
-  email: 'info@turboteach.ca',
-  emailHref: 'mailto:info@turboteach.ca',
+  email: 'info@proactivedriverslink.ca',
+  emailHref: 'mailto:info@proactivedriverslink.ca',
   area: 'Toronto / GTA, Ontario',
   serviceAreas: [
     'Toronto',
@@ -24,7 +24,7 @@ export const siteConfig = {
   ],
   social: {
     facebook: 'https://facebook.com',
-    instagram: 'https://www.instagram.com/turboteachdriving/',
+    instagram: 'https://www.instagram.com/',
     google: 'https://google.com',
   },
 };

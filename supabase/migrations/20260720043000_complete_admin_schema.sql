@@ -175,10 +175,10 @@ CREATE POLICY "read_site_settings_public"
 INSERT INTO public.site_settings (phone, email, whatsapp, address, etransfer, hours)
 SELECT
   '+1 (416) 555-0199',
-  'info@turboteach.ca',
+  'info@proactivedriverslink.ca',
   'https://wa.me/14165550199',
   'Greater Toronto Area, ON',
-  'info@turboteach.ca',
+  'info@proactivedriverslink.ca',
   'Mon–Sun · Flexible scheduling'
 WHERE NOT EXISTS (SELECT 1 FROM public.site_settings LIMIT 1);
 

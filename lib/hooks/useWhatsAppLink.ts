@@ -9,7 +9,7 @@ export function useWhatsAppLink() {
 
   return useMemo(() => {
     const origin =
-      typeof window !== 'undefined' ? window.location.origin : 'https://turboteach.ca';
+      typeof window !== 'undefined' ? window.location.origin : 'https://proactivedriverslink.ca';
     const url = pathname === '/' ? `${origin}/` : `${origin}${pathname}`;
     return buildWhatsAppUrl(getPageLabel(pathname), url);
   }, [pathname]);

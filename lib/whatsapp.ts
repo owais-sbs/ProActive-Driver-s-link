@@ -20,5 +20,5 @@ export function buildWhatsAppUrl(pageLabel: string, pageUrl: string): string {
 }
 
 export function defaultWhatsAppUrl(): string {
-  return buildWhatsAppUrl('Home', 'https://turboteach.ca/');
+  return buildWhatsAppUrl('Home', 'https://proactivedriverslink.ca/');
 }

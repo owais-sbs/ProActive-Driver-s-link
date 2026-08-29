@@ -11,7 +11,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://turbotechcars.netlify.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://proactivedriverslink.ca';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: '/og-image.png?v=pdlc-20260827',
+        url: '/og-image.png?v=pdlc-20260829',
         width: 1200,
         height: 630,
         alt: siteConfig.fullName,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.fullName,
     description: 'Pass your G2 & G driving test with confidence.',
-    images: ['/og-image.png?v=pdlc-20260827'],
+    images: ['/og-image.png?v=pdlc-20260829'],
   },
   icons: {
     icon: '/icon.png',

@@ -5,12 +5,12 @@ import { siteConfig } from '@/lib/data/site';
 /** dark = teal on light backgrounds · light = white on dark/teal backgrounds */
 const LOGO_SRC = {
   dark: {
-    full: '/images/logo-blue.png?v=pdlc-20260827',
-    mark: '/images/logo-mark-blue.png?v=pdlc-20260827',
+    full: '/images/logo-blue.png?v=pdlc-20260829',
+    mark: '/images/logo-mark-blue.png?v=pdlc-20260829',
   },
   light: {
-    full: '/images/logo-white.png?v=pdlc-20260827',
-    mark: '/images/logo-mark-white.png?v=pdlc-20260827',
+    full: '/images/logo-white.png?v=pdlc-20260829',
+    mark: '/images/logo-mark-white.png?v=pdlc-20260829',
   },
 } as const;
 

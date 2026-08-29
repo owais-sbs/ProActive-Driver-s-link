@@ -1,5 +1,5 @@
 /*
-# Create bookings and pricing tables for Turbo Teach driving school
+# Create bookings and pricing tables for ProActive Driver's Link Canada
 
 1. New Tables
 - `bookings`: public booking form submissions.

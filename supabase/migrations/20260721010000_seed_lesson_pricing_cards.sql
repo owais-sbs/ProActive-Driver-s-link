@@ -1,5 +1,5 @@
 -- =============================================================================
--- Turbo Teach — Packages (pricing) SQL
+-- ProActive Driver's Link Canada — Packages (pricing) SQL
 -- Run in: Supabase → SQL Editor → New query → Run
 -- After this, Admin create / edit / delete + Save will keep the live site in sync
 -- via /api/pricing (service role). You do NOT need SQL for day-to-day edits.
