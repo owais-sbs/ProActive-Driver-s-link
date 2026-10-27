@@ -106,7 +106,7 @@ function PackageSection({
 function PricingExtras() {
   const included = [
     'Pickup and drop-off included',
-    'Training in adverse weather conditions (heavy rain, snow, low visibility)',
+    'Training for adverse weather conditions (heavy rain, snow, low visibility)',
     'Essential defensive driving & safety skills',
   ];
 
