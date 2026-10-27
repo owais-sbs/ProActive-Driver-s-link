@@ -42,7 +42,7 @@ export function FinalCTA() {
             asChild
             size="lg"
             variant="outline"
-            className="border-white/25 text-white hover:bg-white/10 hover:text-white"
+            className="border-white/25 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           >
             <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
               <MessageCircle className="h-4 w-4 text-emerald-400" /> WhatsApp Now
