@@ -18,6 +18,9 @@ function mergeContent(rows: { section: string; data: unknown }[]): SiteContentMa
     if (section === 'testimonials') {
       merged.testimonials = { ...merged.testimonials, ...patch } as SiteContentMap['testimonials'];
     }
+    if (section === 'happy_students') {
+      merged.happy_students = { ...merged.happy_students, ...patch } as SiteContentMap['happy_students'];
+    }
     if (section === 'final_cta') merged.final_cta = { ...merged.final_cta, ...patch } as SiteContentMap['final_cta'];
   }
 
@@ -51,7 +54,7 @@ export async function POST(req: Request) {
     }
 
     const section = body.section as ContentSection;
-    const allowed: ContentSection[] = ['hero', 'why', 'lessons', 'testimonials', 'final_cta'];
+    const allowed: ContentSection[] = ['hero', 'why', 'lessons', 'testimonials', 'happy_students', 'final_cta'];
     if (!allowed.includes(section)) {
       return NextResponse.json({ error: 'Invalid section' }, { status: 400 });
     }

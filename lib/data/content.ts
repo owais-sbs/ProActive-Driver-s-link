@@ -64,6 +64,20 @@ export const defaultSiteContent: SiteContentMap = {
       { name: 'Priya Sharma', rating: 5, text: 'Lessons in my own language made a huge difference.' },
     ],
   },
+  happy_students: {
+    items: [
+      {
+        name: 'Happy Student',
+        caption: 'Passed the road test with ProActive Driver’s Link!',
+        image: '/images/happy-students/student-1.webp',
+      },
+      {
+        name: 'Happy Student',
+        caption: 'Licence in hand — another successful road test!',
+        image: '/images/happy-students/student-2.webp',
+      },
+    ],
+  },
   final_cta: {
     eyebrow: 'Get Started Today',
     title: 'Ready to Pass Your',

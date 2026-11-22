@@ -4,6 +4,7 @@ import { WhyChooseUs } from '@/components/sections/WhyChooseUs';
 import { LessonTypes } from '@/components/sections/LessonTypes';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { Testimonials } from '@/components/sections/Testimonials';
+import { HappyStudents } from '@/components/sections/HappyStudents';
 import { Pricing } from '@/components/sections/Pricing';
 import { BookingForm } from '@/components/sections/BookingForm';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -16,6 +17,7 @@ export default function Home() {
       <LessonTypes />
       <HowItWorks />
       <Testimonials />
+      <HappyStudents />
       <Pricing />
       <BookingForm />
       <FinalCTA />

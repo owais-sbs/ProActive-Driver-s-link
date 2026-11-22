@@ -10,6 +10,10 @@ import {
   Trash2,
   Check,
   Loader2,
+  Upload,
+  ArrowLeft,
+  ArrowRight,
+  PartyPopper,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -58,6 +62,60 @@ function SaveBar({
   );
 }
 
+function StudentImage({ src, onChange }: { src: string; onChange: (url: string) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const upload = async (file: File) => {
+    setUploading(true);
+    setError(null);
+    try {
+      const body = new FormData();
+      body.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.url) throw new Error(json.error || 'Upload failed');
+      onChange(json.url as string);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="aspect-[3/4] overflow-hidden rounded-xl bg-slate-100">
+        {src ? (
+          <img src={src} alt="Student" className="h-full w-full object-cover" />
+        ) : (
+          <div className="grid h-full place-items-center text-xs text-ink/40">No photo</div>
+        )}
+      </div>
+      <label
+        className={cn(
+          'flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-xs font-semibold text-ink/70 hover:bg-slate-50',
+          uploading && 'pointer-events-none opacity-60'
+        )}
+      >
+        {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+        {src ? 'Replace photo' : 'Upload photo'}
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            e.target.value = '';
+            if (f) void upload(f);
+          }}
+        />
+      </label>
+      {error && <p className="text-xs text-red-600">{error}</p>}
+    </div>
+  );
+}
+
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
@@ -76,7 +134,15 @@ export function ContentEditor() {
   const [why, setWhy] = useState(defaultSiteContent.why);
   const [lessons, setLessons] = useState(defaultSiteContent.lessons.items);
   const [reviews, setReviews] = useState(defaultSiteContent.testimonials.items);
+  const [students, setStudents] = useState(defaultSiteContent.happy_students.items);
   const [cta, setCta] = useState(defaultSiteContent.final_cta);
+
+  const moveStudent = (from: number, to: number) => {
+    if (to < 0 || to >= students.length) return;
+    const next = [...students];
+    [next[from], next[to]] = [next[to], next[from]];
+    setStudents(next);
+  };
 
   useEffect(() => {
     if (!data) return;
@@ -84,6 +150,7 @@ export function ContentEditor() {
     setWhy(data.why);
     setLessons(data.lessons.items);
     setReviews(data.testimonials.items);
+    setStudents(data.happy_students.items);
     setCta(data.final_cta);
   }, [data]);
 
@@ -124,6 +191,7 @@ export function ContentEditor() {
             { v: 'why', l: 'Why Choose Us', icon: ImageIcon },
             { v: 'lessons', l: 'Lessons', icon: Type },
             { v: 'reviews', l: 'Testimonials', icon: Type },
+            { v: 'students', l: 'Happy Students', icon: PartyPopper },
             { v: 'cta', l: 'Final CTA', icon: Type },
           ].map((t) => (
             <TabsTrigger
@@ -384,6 +452,95 @@ export function ContentEditor() {
               </div>
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="students" className="space-y-4">
+          <SaveBar
+            onSave={() => save('happy_students', { items: students })}
+            saved={savedSection === 'happy_students'}
+            saving={saveSection.isPending}
+          />
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs text-ink/60">
+              Photos of students who passed. Upload, reorder or remove, then click Save section.
+            </p>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setStudents([...students, { name: '', caption: '', image: '' }])}
+            >
+              <Plus className="h-3.5 w-3.5" /> Add student
+            </Button>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {students.map((s, i) => (
+              <div key={i} className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <StudentImage
+                  src={s.image}
+                  onChange={(image) => {
+                    const next = [...students];
+                    next[i] = { ...s, image };
+                    setStudents(next);
+                  }}
+                />
+                <Field label="Name (optional)">
+                  <Input
+                    value={s.name}
+                    onChange={(e) => {
+                      const next = [...students];
+                      next[i] = { ...s, name: e.target.value };
+                      setStudents(next);
+                    }}
+                  />
+                </Field>
+                <Field label="Caption">
+                  <Textarea
+                    rows={2}
+                    value={s.caption}
+                    onChange={(e) => {
+                      const next = [...students];
+                      next[i] = { ...s, caption: e.target.value };
+                      setStudents(next);
+                    }}
+                  />
+                </Field>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      aria-label="Move earlier"
+                      disabled={i === 0}
+                      className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-ink/70 hover:bg-slate-50 disabled:opacity-30"
+                      onClick={() => moveStudent(i, i - 1)}
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Move later"
+                      disabled={i === students.length - 1}
+                      className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-ink/70 hover:bg-slate-50 disabled:opacity-30"
+                      onClick={() => moveStudent(i, i + 1)}
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+                    onClick={() => setStudents(students.filter((_, j) => j !== i))}
+                  >
+                    <Trash2 className="h-4 w-4" /> Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {students.length === 0 && (
+            <p className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-ink/50">
+              No students yet. The Happy Students section is hidden on the site until you add one.
+            </p>
+          )}
         </TabsContent>
 
         <TabsContent value="cta" className="space-y-4">

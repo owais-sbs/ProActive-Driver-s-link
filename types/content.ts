@@ -1,4 +1,16 @@
-export type ContentSection = 'hero' | 'why' | 'lessons' | 'testimonials' | 'final_cta';
+export type ContentSection =
+  | 'hero'
+  | 'why'
+  | 'lessons'
+  | 'testimonials'
+  | 'happy_students'
+  | 'final_cta';
+
+export type HappyStudentContent = {
+  name: string;
+  caption: string;
+  image: string;
+};
 
 export type FeatureContent = { title: string; description: string };
 
@@ -44,5 +56,6 @@ export type SiteContentMap = {
   why: WhyContent;
   lessons: { items: LessonContent[] };
   testimonials: { items: ReviewContent[] };
+  happy_students: { items: HappyStudentContent[] };
   final_cta: FinalCtaContent;
 };
