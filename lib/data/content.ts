@@ -68,11 +68,6 @@ export const defaultSiteContent: SiteContentMap = {
     items: [
       {
         name: 'Happy Student',
-        caption: 'Passed the road test with ProActive Driver’s Link!',
-        image: '/images/happy-students/student-1.webp',
-      },
-      {
-        name: 'Happy Student',
         caption: 'Licence in hand — another successful road test!',
         image: '/images/happy-students/student-2.webp',
       },

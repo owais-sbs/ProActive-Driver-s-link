@@ -30,7 +30,7 @@ export function HappyStudents() {
           </RevealText>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+        <div className="mt-10 flex flex-wrap justify-center gap-5 sm:mt-12 sm:gap-6">
           {students.map((s, i) => (
             <motion.figure
               key={`${s.image}-${i}`}
@@ -38,7 +38,7 @@ export function HappyStudents() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative overflow-hidden rounded-2xl border border-mist bg-white shadow-md card-hover"
+              className="group relative w-full max-w-sm overflow-hidden rounded-2xl border border-mist bg-white shadow-md card-hover"
             >
               <img
                 src={s.image}
